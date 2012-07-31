@@ -1,8 +1,3 @@
-exports.users = function () {
-	var mongoose = require('mongoose');
-
-}
-
 exports.users = function(mongoose) {
 	var collection = 'questience';
 	var Schema = mongoose.Schema;

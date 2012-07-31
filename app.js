@@ -6,10 +6,19 @@ var applicationRoot = __dirname,
 	routes = require('./routes'),
 	http = require('http'),
 	path = require("path"),
-	mongoose = require('mongoose');
+	mongoose = require('mongoose'),
+	bootstrap = require('bootstrap-stylus'),
+	stylus = require('stylus'),
+	nib = require('nib');
 
 var app = express();
 
+function compile(str, path) {
+	return stylus(str)
+		.set('filename', path)
+		.set('compress', true)
+		.use(nib());
+}
 /**
  * Models
  */
@@ -29,6 +38,10 @@ app.configure(function()
 	app.set('view options', {
 		layout: false
 	});
+	app.use(stylus.middleware({
+		src: applicationRoot + '/public',
+		compile: compile
+	}));
   app.use(express.favicon());
   app.use(express.logger('dev'));
   app.use(express.bodyParser());
