@@ -1,33 +1,55 @@
-
 /**
  * Module dependencies.
  */
-
-var express = require('express')
-  , routes = require('./routes')
-  , http = require('http')
-  , path = require('path');
+var applicationRoot = __dirname,
+	express = require('express'),
+	routes = require('./routes'),
+	http = require('http'),
+	path = require("path"),
+	mongoose = require('mongoose');
 
 var app = express();
 
-app.configure(function(){
-  app.set('port', process.env.PORT || 3000);
-  app.set('views', __dirname + '/views');
+/**
+ * Models
+ */
+mongoose.connect('mongodb://localhost/questience');
+
+var users = require('./models/users');
+
+/**
+ * Configuration
+ */
+
+app.configure(function()
+{
+	app.set('port', process.env.PORT || 3000);
   app.set('view engine', 'jade');
+	app.set('views', path.join(applicationRoot, "views"));
+	app.set('view options', {
+		layout: false
+	});
   app.use(express.favicon());
   app.use(express.logger('dev'));
   app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(app.router);
-  app.use(express.static(path.join(__dirname, 'public')));
+  app.use(express.static(path.join(applicationRoot, 'public')));
 });
 
 app.configure('development', function(){
-  app.use(express.errorHandler());
+	app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
 });
 
+/**
+ * Routes
+ */
 app.get('/', routes.index);
+app.get('/about-us', routes.aboutUs);
 
+/**
+ * Initialize server
+ */
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
 });
