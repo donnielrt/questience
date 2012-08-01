@@ -16,11 +16,8 @@ head
 	meta(name="author", content="")
 	meta(name="viewport", content="width=device-width,initial-scale=1")
 
-	link(rel='stylesheet', href='styles/bootstrap.min.css')
-	link(rel='stylesheet', href='styles/bootstrap-responsive.min.css')
 	link(rel="stylesheet", href="styles/style.css")
 
-	script(src="js/libs/modernizr-2.0.6.min.js")
 body
 
 	div.navbar.navbar-fixed-top
@@ -60,22 +57,7 @@ body
 		.container-fluid
 			p &copy; Donniel Thomas 2012
 
-	script(src="//ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js")
-	script
-		window.jQuery || document.write('<script src="js/libs/jquery-1.6.2.min.js"><\\/script>')
-
-	// scripts concatenated and minified via ant build script
-	script(src="js/libs/bootstrap.min.js")
-	script(src="js/libs/underscore.js")
-	script(src="js/libs/backbone.js")
-	script(defer, src="js/plugins.js")
-	script(defer, src="js/script.js")
-	// end scripts
-
-	// Change UA-XXXXX-X to be your site's ID
-	script
-		window._gaq = [['_setAccount','UAXXXXXXXX1'],['_trackPageview'],['_trackPageLoadTime']];
-		Modernizr.load({load: ('https:' == location.protocol ? '//ssl' : '//www') + '.google-analytics.com/ga.js'});
+	script(src="js/libs/require-jquery.min.js", data-main="js/script")
 
 	//if lt IE 7
 		script(src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js")
