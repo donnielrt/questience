@@ -32,7 +32,8 @@ var users = require('./models/users');
 
 app.configure(function()
 {
-	app.set('port', process.env.PORT || 3000);
+
+	app.use(express.favicon());
   app.set('view engine', 'jade');
 	app.set('views', path.join(applicationRoot, "views"));
 	app.set('view options', {
@@ -42,12 +43,15 @@ app.configure(function()
 		src: applicationRoot + '/public',
 		compile: compile
 	}));
-  app.use(express.favicon());
-  app.use(express.logger('dev'));
-  app.use(express.bodyParser());
+	app.use(express.static(path.join(applicationRoot, 'public')));
+
+	app.use(express.bodyParser());
   app.use(express.methodOverride());
-  app.use(app.router);
-  app.use(express.static(path.join(applicationRoot, 'public')));
+
+	app.use(app.router);
+	app.use(express.logger('dev'));
+
+	app.set('port', process.env.PORT || 3000);
 });
 
 app.configure('development', function(){
