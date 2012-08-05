@@ -9,7 +9,8 @@ var applicationRoot = __dirname,
 	mongoose = require('mongoose'),
 	bootstrap = require('bootstrap-stylus'),
 	stylus = require('stylus'),
-	nib = require('nib');
+	nib = require('nib'),
+  hbs = require('hbs');
 
 var app = express();
 
@@ -34,11 +35,9 @@ app.configure(function()
 {
 
 	app.use(express.favicon());
-  app.set('view engine', 'jade');
-	app.set('views', path.join(applicationRoot, "views"));
-	app.set('view options', {
-		layout: false
-	});
+
+  app.set('views', __dirname + '/views');
+
 	app.use(stylus.middleware({
 		src: applicationRoot + '/public',
 		compile: compile
@@ -51,7 +50,10 @@ app.configure(function()
 	app.use(app.router);
 	app.use(express.logger('dev'));
 
-	app.set('port', process.env.PORT || 3000);
+  app.set('view engine', 'html');
+  app.engine('html', require('hbs').__express);
+
+  app.set('port', process.env.PORT || 3000);
 });
 
 app.configure('development', function(){
@@ -62,7 +64,8 @@ app.configure('development', function(){
  * Routes
  */
 app.get('/', routes.index);
-app.get('/about-us', routes.aboutUs);
+app.get('/about', routes.about);
+
 
 /**
  * Initialize server

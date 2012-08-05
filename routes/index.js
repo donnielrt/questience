@@ -3,5 +3,8 @@
  */
 
 exports.index = function(req, res){
-  res.render('index', { title: 'Welcome | Questience', heading: 'Welcome to Questience', contents: 'Coming soon' }); // @todo save common parts of the URL to a function
+  res.render('index', { body: '', title: 'Home' });
+};
+exports.about = function(req, res){
+  res.render('about', { body: '', title: 'About Questience' });
 };
