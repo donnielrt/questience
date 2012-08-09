@@ -4,6 +4,7 @@ module.exports = function () {
 
   return {
 
+		/* attributes */
     Attributes : function() {
       var collection = 'Attribute';
       var Schema = mongoose.Schema;
@@ -16,7 +17,8 @@ module.exports = function () {
       return mongoose.model(collection, schema);
     },
 
-    Status : function() {
+		/* statuses */
+    Statuses : function() {
       var collection = 'Status';
       var Schema = mongoose.Schema;
       var ObjectId = Schema.ObjectId;
@@ -28,6 +30,7 @@ module.exports = function () {
       return mongoose.model(collection, schema);
     },
 
+		/* tasks */
     Tasks : function() {
       var collection = 'Task';
       var Schema = mongoose.Schema;
@@ -47,6 +50,7 @@ module.exports = function () {
       return mongoose.model(collection, schema);
     },
 
+		/* users */
     Users : function() {
       var collection = 'User';
       var Schema = mongoose.Schema;
@@ -61,6 +65,7 @@ module.exports = function () {
       return mongoose.model(collection, schema);
     },
 
+		/* quests */
     Quests : function () {
 
       var collection = 'Quest';

@@ -60,7 +60,6 @@ mongoose.connect('mongodb://localhost/questience');
  * Routes
  */
 router.setRoutes(app, mongoose);
-l
 
 /**
  * Initialize server

@@ -1,60 +1,73 @@
 var mongoose = require('mongoose'),
-  models = require('../models'),
-  Users = models.Users(),
-  Status = models.Status(),
-  Attributes = models.Attributes(),
-  Tasks = models.Tasks(),
-  Quests = models.Quests();
+	models = require('../models'),
+	Users = models.Users(),
+	Status = models.Statuses(),
+	Attributes = models.Attributes(),
+	Tasks = models.Tasks(),
+	Quests = models.Quests();
 
 console.log("Models: ", models);
 
-exports.setRoutes = function(app, mongoose) {
+exports.setRoutes = function (app, mongoose) {
 
-  /* GETs */
-  app.get('/', function (req, res) {
-    res.render('index', { body: '', title: 'Home' });
-  });
-  app.get('/about', function(req, res) {
-    res.render('about', { body: '', title: 'About Questience' });
-  });
+	/* GETs */
+	app.get('/', function (req, res) {
+		res.render('index', { title:'Home' });
+	});
+	app.get('/about', function (req, res) {
+		res.render('about', { title:'About Questience' });
+	});
 
-  app.get('/quests', function(req, res) {
+/*	app.get('/quests', function (req, res) {
 
-    console.log("Getting quests", Quests);
+		Quests.find().execFind(function (error, results) {
 
-    var quest = new Quests;
-    quest.save(function (err) {
-      if(!err) {
-        return console.log("Error saving quest");
-      }
-    });
+			if (!error) {
+				console.log("Quests found: ", results.length);
+				res.render('quests', { title:'Quests', quests:results });
+			} else {
+				console.log("Error", error);
+			}
 
-    Quests.find().execFind(function (err, results) {
-      console.log("Quests found");
-      res.render('quests', { body: '', title: 'Quests', quests: results });
-    });
+		});
 
-  });
+	});*/
 
-  /* POSTs *//*
-  app.post('/api/quests', function(req, res){
+	app.get('/api/quests/:id', function (req, res) {
 
-    var quest, userId = 1, today = new Date();
-    console.log("Creating Quest");
+		Quests.findById(req.params.id, function (error, quest) {
 
-    quest = new Quest({
-      name: "test",
-      author: userId,
-      status: "pending",
-      created: today,
-      updated: today
-    });
-    quest.save(function(err) {
-      if (!err) {
-        return console.log("created");
-      }
-    });
-    return res.send(quest);
-  });*/
+			if (!error && quest) {
+				res.send(quest);
+			} else {
+				res.send(null);
+			}
+
+		});
+
+	});
+
+	/* POSTs */
+	app.post('/api/quests/new', function (req, res) {
+
+		var quest, now = new Date();
+		console.log("Creating Quest");
+
+		quest = new Quests({
+			name: req.body.name,
+			created: now,
+			updated: now
+		});
+
+		quest.save(function (error) {
+			if (!error) {
+				console.log("Saved");
+			} else {
+				console.log("Error saving quest");
+			}
+		});
+
+		return res.send(quest);
+	});
 
 };
