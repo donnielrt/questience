@@ -3,14 +3,14 @@
  */
 var applicationRoot = __dirname,
 	express = require('express'),
-	routes = require('./routes'),
+	router = require('./routes'),
 	http = require('http'),
 	path = require("path"),
-	mongoose = require('mongoose'),
 	bootstrap = require('bootstrap-stylus'),
 	stylus = require('stylus'),
 	nib = require('nib'),
-  hbs = require('hbs');
+  hbs = require('hbs'),
+  mongoose = require('mongoose');
 
 var app = express();
 
@@ -20,12 +20,6 @@ function compile(str, path) {
 		.set('compress', true)
 		.use(nib());
 }
-/**
- * Models
- */
-mongoose.connect('mongodb://localhost/questience');
-
-var users = require('./models/users');
 
 /**
  * Configuration
@@ -36,6 +30,8 @@ app.configure(function()
 
 	app.use(express.favicon());
 
+  app.set('view engine', 'html');
+  app.engine('html', require('hbs').__express);
   app.set('views', __dirname + '/views');
 
 	app.use(stylus.middleware({
@@ -50,9 +46,6 @@ app.configure(function()
 	app.use(app.router);
 	app.use(express.logger('dev'));
 
-  app.set('view engine', 'html');
-  app.engine('html', require('hbs').__express);
-
   app.set('port', process.env.PORT || 3000);
 });
 
@@ -60,12 +53,14 @@ app.configure('development', function(){
 	app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
 });
 
+/* Models */
+mongoose.connect('mongodb://localhost/questience');
+
 /**
  * Routes
  */
-app.get('/', routes.index);
-app.get('/about', routes.about);
-
+router.setRoutes(app, mongoose);
+l
 
 /**
  * Initialize server

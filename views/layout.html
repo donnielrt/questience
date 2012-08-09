@@ -1,5 +1,9 @@
+<!doctype html>
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
 
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -8,16 +12,15 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <!-- Le styles -->
+    <!-- styles -->
     <link href="/styles/style.css" rel="stylesheet">
 
-    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
 
-    <!-- Le fav and touch icons -->
-    <link rel="shortcut icon" href="../assets/ico/favicon.ico">
+    <!-- fav and touch icons -->
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/ico/apple-touch-icon-144-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/ico/apple-touch-icon-114-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/ico/apple-touch-icon-72-precomposed.png">
@@ -50,6 +53,7 @@
                 <ul class="nav">
                     <li class="active"><a href="/">Home</a></li>
                     <li><a href="/about">About Questience</a></li>
+                    <li><a href="/quests">Quests</a></li>
                 </ul>
             </div><!--/.nav-collapse -->
         </div>
@@ -63,12 +67,13 @@
                 <ul class="nav nav-list">
                     <li class="nav-header">Actions</li>
                     <li class="active"><a href="#">Home</a></li>
+                    <li><a href="/quests">List Quests</a></li>
                     <li><a href="#">Create Quest</a></li>
                     <li><a href="#">Create Task</a></li>
                 </ul>
             </div><!--/.well -->
         </div><!--/span-->
-        <div class="span9">
+        <div class="span9" id="questience-app">
             {{{body}}}
         </div>
     </div><!--/row-->
@@ -81,9 +86,9 @@
 
 </div><!--/.fluid-container-->
 
-<!-- Le javascript
+<!-- javascript
 ================================================== -->
-<script data-main="/js/main.js" src="/js/libs/require/require.js"></script>
+<script data-main="/js/main.js" src="/js/libs/require-jquery.min.js"></script>
 
 </body>
 </html>
