@@ -1,16 +1,20 @@
 define([
 	'underscore',
 	'backbone',
-	'libs/localstorage',
-	'models/quests'
-], function(_, Backbone, Store, Quest){
+	'models/quest'
+], function(_, Backbone, Quest){
 
 	var QuestsCollection = Backbone.Collection.extend({
 
+    url: "/api/quests",
+
 		model: Quest,
 
-		localStorage: new Store("questience")
+    initialize: function () {
+      console.log("Initializing Quests collection");
+    }
 
 	});
-	return new QuestsCollection;
+
+	return new QuestsCollection();
 });

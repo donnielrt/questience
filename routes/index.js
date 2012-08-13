@@ -18,20 +18,20 @@ exports.setRoutes = function (app, mongoose) {
 		res.render('about', { title:'About Questience' });
 	});
 
-/*	app.get('/quests', function (req, res) {
+	app.get('/api/quests', function (req, res) {
 
-		Quests.find().execFind(function (error, results) {
+		Quests.find().execFind(function (error, quests) {
 
 			if (!error) {
-				console.log("Quests found: ", results.length);
-				res.render('quests', { title:'Quests', quests:results });
+				console.log("Quests found: ", quests.length);
+				res.send(quests);
 			} else {
 				console.log("Error", error);
 			}
 
 		});
 
-	});*/
+	});
 
 	app.get('/api/quests/:id', function (req, res) {
 
@@ -46,6 +46,20 @@ exports.setRoutes = function (app, mongoose) {
 		});
 
 	});
+
+  app.get('/quests/:id', function (req, res) {
+
+    Quests.findById(req.params.id, function (error, quest) {
+
+      if (!error && quest) {
+        res.render('quest', {title: quest.name, quest: quest} );
+      } else {
+        res.render(null);
+      }
+
+    });
+
+  });
 
 	/* POSTs */
 	app.post('/api/quests/new', function (req, res) {

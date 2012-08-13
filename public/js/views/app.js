@@ -1,29 +1,39 @@
 define([
 	'jquery',
-	'underscore',
 	'backbone',
-	'collections/quests',
+  'collections/quests',
 	'views/quests',
-	'text!templates/quests.html',
 	'common'
-], function($, _, Backbone, Quests, QuestsView, questsTemplate, Common) {
+], function($, Backbone, Quests, QuestsView, questsTemplate, Common) {
 
-	var AppView = Backbone.View.extend({
+  return Backbone.View.extend({
 
-		el: $("#questience-app"),
+    el: $("#questience-app"),
 
-		template: _.template(questsTemplate),
+    template: _.template(""),
 
-		events: {
-		},
+    events: {
+    },
 
-		initialize: function() {
+    initialize: function() {
 
-		},
+      console.log("App View initialized!", this.el);
+      this.render();
 
-		render: function() {
-		}
-	});
+    },
 
-	return AppView;
+    render: function() {
+
+      var questsView;
+
+      this.$el.append(this.template);
+
+      questsView = new QuestsView({collection: Quests, model: null}); // render quests
+
+      this.$el.append(questsView.el);
+
+    }
+
+  });
+
 });
