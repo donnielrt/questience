@@ -1,8 +1,6 @@
-define([
-	'underscore',
-	'backbone',
-	'models/quest'
-], function(_, Backbone, Quest){
+define(['backbone',	'models/quest', 'views/quest'], function(Backbone, Quest, QuestView){
+
+  "use strict";
 
 	var QuestsCollection = Backbone.Collection.extend({
 
@@ -11,7 +9,9 @@ define([
 		model: Quest,
 
     initialize: function () {
+
       console.log("Initializing Quests collection");
+
     }
 
 	});

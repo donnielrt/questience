@@ -1,11 +1,13 @@
-define(['jquery','backbone', 'views/app', 'views/quests', 'models/quest', 'common'],
-  function($, Backbone, AppView, QuestsView, Quest, Common){
+define(['backbone', 'views/app', 'views/quest', 'views/quests', 'models/quest', 'backbone-forms'],
+  function(Backbone, AppView, QuestView, QuestsView, Quest, BF){
 
-	var Workspace = Backbone.Router.extend({
+  "use strict";
+
+	return Backbone.Router.extend({
 
 		routes:{
-      "": "home",
       "quests": "quests",
+      "quests/new": "questNew",
       "quests/:id": "questView"
 		},
 
@@ -14,6 +16,7 @@ define(['jquery','backbone', 'views/app', 'views/quests', 'models/quest', 'commo
       var appView = new AppView(); // load main window
       this.appView = appView;
 
+      // handle internal links without navigating away from the page
       $("body").on("click", "a[data-internal]", function(e) {
 
         e.preventDefault();
@@ -23,15 +26,15 @@ define(['jquery','backbone', 'views/app', 'views/quests', 'models/quest', 'commo
 
     },
 
-    start: function() {
+    start: function () {
       Backbone.history.start({pushState: true});
     },
 
-    quests: function() {
+    quests: function () {
       this.appView.render();
     },
 
-    questView: function(id) {
+    questView: function (id) {
 
       var quest = new Quest({_id: id}),
         questsView = new QuestsView({collection: null, model: quest});
@@ -39,10 +42,27 @@ define(['jquery','backbone', 'views/app', 'views/quests', 'models/quest', 'commo
       quest.fetch();
       questsView.render();
 
+    },
+
+    questNew: function () {
+
+      var quest = new Quest(),
+        questView = new QuestView({model: quest});
+
+      questView = questView.render();
+
+      var form = new Backbone.Form({
+        model: quest
+      }).render();
+
+      console.log("El: ", questView.el);
+
+      $(this.appView.el).html(this.appView.template()).append(form.el);
+
+      return false;
+
     }
 
 	});
-
-	return Workspace;
 
 });

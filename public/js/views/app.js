@@ -1,10 +1,6 @@
-define([
-	'jquery',
-	'backbone',
-  'collections/quests',
-	'views/quests',
-	'common'
-], function($, Backbone, Quests, QuestsView, questsTemplate, Common) {
+define(['backbone', 'collections/quests',	'views/quests'], function(Backbone, Quests, QuestsView) {
+
+  "use strict";
 
   return Backbone.View.extend({
 
@@ -24,13 +20,9 @@ define([
 
     render: function() {
 
-      var questsView;
+      var questsView = new QuestsView({collection: Quests, model: null}); // render quests
 
-      this.$el.append(this.template);
-
-      questsView = new QuestsView({collection: Quests, model: null}); // render quests
-
-      this.$el.append(questsView.el);
+      this.$el.append(this.template).append(questsView.el);
 
     }
 

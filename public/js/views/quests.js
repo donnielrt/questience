@@ -1,8 +1,6 @@
-define([
-	'backbone',
-  'views/quest',
-	'text!templates/quests.html'
-], function(Backbone, QuestView, questsTemplate){
+define(['backbone', 'views/quest', 'text!templates/quests.html'], function(Backbone, QuestView, questsTemplate){
+
+  "use strict";
 
 	var QuestsView = Backbone.View.extend({
 
@@ -17,12 +15,17 @@ define([
 
 		initialize: function(options) {
 
+      var $root = $(this.el);
+
       this.collection = options.collection || {};
       this.model = options.model || {};
 
       if (!_.isEmpty(options.collection)) {
 
-        this.collection.bind('reset', this.render, this);
+        this.collection.bind('change reset', this.render, this);
+        this.collection.bind("add", function (quest) {
+          $root.append(new QuestView( { model:quest}).render().el);
+        });
         this.collection.fetch();
 
       }

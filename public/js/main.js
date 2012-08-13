@@ -4,13 +4,18 @@ require.config({
 		"bootstrap": "libs/bootstrap.min",
 		"underscore": "libs/underscore",
 		"backbone": "libs/backbone",
+    "backbone-forms": "libs/backbone-forms",
 		"analytics": "//google-analytics.com/ga"
 	},
 	shim: {
 		'backbone': {
 			deps: ['underscore', 'jquery'],
 			exports: 'Backbone'
-		}
+		},
+    'backbone-forms': {
+      deps: ['underscore', 'backbone'],
+      exports: 'BackboneForms'
+    }
 	}
 });
 

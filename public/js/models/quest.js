@@ -1,4 +1,6 @@
-define(['underscore', 'backbone'], function(_, Backbone) {
+define(['backbone'], function(Backbone) {
+
+  "use strict";
 
 	var QuestModel = Backbone.Model.extend({
 
@@ -6,7 +8,14 @@ define(['underscore', 'backbone'], function(_, Backbone) {
 
     urlRoot: "/api/quests",
 
+    schema: {
+      name: 'Text',
+      description: { validators: ['required', 'email'] },
+      deadline: 'Date'
+    },
+
 		defaults: {
+      _id: null,
       name: "Untitled Quest",
       created: new Date(),
       updated: new Date()
