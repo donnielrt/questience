@@ -27,7 +27,7 @@ define(['backbone', 'views/app', 'views/quest', 'views/quests', 'models/quest', 
     },
 
     start: function () {
-      Backbone.history.start({pushState: true});
+      Backbone.history.start();
     },
 
     quests: function () {
@@ -49,15 +49,7 @@ define(['backbone', 'views/app', 'views/quest', 'views/quests', 'models/quest', 
       var quest = new Quest(),
         questView = new QuestView({model: quest});
 
-      questView = questView.render();
-
-      var form = new Backbone.Form({
-        model: quest
-      }).render();
-
-      console.log("El: ", questView.el);
-
-      $(this.appView.el).html(this.appView.template()).append(form.el);
+      this.appView.$el.html(this.appView.template()).append(questView.newQuest().$el);
 
       return false;
 

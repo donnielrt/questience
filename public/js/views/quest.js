@@ -1,4 +1,5 @@
-define(['backbone', 'collections/quests', 'text!templates/quest.html', 'common'], function(Backbone, Quests, questsTemplate, Common){
+define(['backbone', 'collections/quests', 'models/quest', 'text!templates/quest.html', 'text!templates/quest-new.html'],
+  function(Backbone, Quests, Quest, questsTemplate, newQuestTemplate){
 
   "use strict";
 
@@ -11,12 +12,12 @@ define(['backbone', 'collections/quests', 'text!templates/quest.html', 'common']
 
 		events: {
       "change input": "change",
-      "click .save": "saveQuest",
-      "click .delete": "deleteQuest"
+      "click .btn-save": "saveQuest",
+      "click .btn-delete": "deleteQuest"
 		},
 
-		initialize: function(model) {
-      this.model.bind('change', this.render, this);
+		initialize: function() {
+      this.model.bind('reset change', this.render, this);
 		},
 
 		render: function() {
@@ -29,9 +30,21 @@ define(['backbone', 'collections/quests', 'text!templates/quest.html', 'common']
       console.log("Changing ", target.id, " from ", target.defaultValue, " to ", target.value);
     },
 
+    newQuest: function () {
+
+      this.model = new Quest();
+
+      console.log("New quest");
+      this.$el.html(_.template(newQuestTemplate));
+      return this;
+
+    },
+
     saveQuest: function() {
 
       var status = this.model.isNew ? "new" : "pending";
+
+      console.log("Saving");
 
       this.model.set({
         name: $("#name").val(),
@@ -40,8 +53,10 @@ define(['backbone', 'collections/quests', 'text!templates/quest.html', 'common']
         status: status
       });
 
+      this.collection = new Quests();
+
       if (this.model.isNew()) {
-        Quests.create(this.model);
+        this.collection.create(this.model);
       } else {
         this.model.save();
       }

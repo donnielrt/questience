@@ -26,11 +26,7 @@ define(['backbone'], function(Backbone) {
 
       console.log("Quest model initialized");
 
-		},
-
-    render: function () {
-
-    }
+		}
 
 	});
 

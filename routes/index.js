@@ -14,6 +14,7 @@ exports.setRoutes = function (app, mongoose) {
 	app.get('/', function (req, res) {
 		res.render('index', { title:'Home' });
 	});
+
 	app.get('/about', function (req, res) {
 		res.render('about', { title:'About Questience' });
 	});

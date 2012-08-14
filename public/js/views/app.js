@@ -1,4 +1,4 @@
-define(['backbone', 'collections/quests',	'views/quests'], function(Backbone, Quests, QuestsView) {
+define(['backbone', 'collections/quests',	'views/quests', 'text!templates/index.html'], function(Backbone, Quests, QuestsView, indexTemplate) {
 
   "use strict";
 
@@ -6,7 +6,7 @@ define(['backbone', 'collections/quests',	'views/quests'], function(Backbone, Qu
 
     el: $("#questience-app"),
 
-    template: _.template(""),
+    template: _.template(indexTemplate),
 
     events: {
     },
@@ -22,7 +22,7 @@ define(['backbone', 'collections/quests',	'views/quests'], function(Backbone, Qu
 
       var questsView = new QuestsView({collection: Quests, model: null}); // render quests
 
-      this.$el.append(this.template).append(questsView.el);
+      this.$el.html(this.template).append(questsView.el);
 
     }
 
