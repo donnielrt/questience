@@ -2,7 +2,7 @@ define(['backbone',	'models/quest', 'views/quest'], function(Backbone, Quest, Qu
 
   "use strict";
 
-	var QuestsCollection = Backbone.Collection.extend({
+	return Backbone.Collection.extend({
 
     url: "/api/quests",
 
@@ -16,5 +16,4 @@ define(['backbone',	'models/quest', 'views/quest'], function(Backbone, Quest, Qu
 
 	});
 
-	return new QuestsCollection();
 });

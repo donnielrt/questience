@@ -1,4 +1,5 @@
 @import 'bootstrap.min.css';
 @import 'bootstrap-responsive.min.css';
 body{padding-top:60px;padding-bottom:40px}
-.list-plain{list-style:none}
+.list-plain{list-style:none;border-bottom:15px}
+.list .list-row-new{margin-left:0}

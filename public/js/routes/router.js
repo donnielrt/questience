@@ -1,14 +1,17 @@
-define(['backbone', 'views/app', 'views/quest', 'views/quests', 'models/quest', 'backbone-forms'],
-  function(Backbone, AppView, QuestView, QuestsView, Quest, BF){
+define(['backbone', 'views/app', 'views/quest', 'views/quests', 'models/quest', 'collections/quests'],
+  function(Backbone, AppView, QuestView, QuestsView, Quest, Quests){
 
   "use strict";
 
 	return Backbone.Router.extend({
 
 		routes:{
+			"": "home",
       "quests": "quests",
       "quests/new": "questNew",
-      "quests/:id": "questView"
+      "quests/:id": "questView",
+			"quests/:id/edit": "questEdit",
+			"quests/:id/remove": "questRemove"
 		},
 
     initialize: function () {
@@ -30,8 +33,19 @@ define(['backbone', 'views/app', 'views/quest', 'views/quests', 'models/quest', 
       Backbone.history.start();
     },
 
+		home: function () {
+
+			this.quests();
+
+		},
+
     quests: function () {
-      this.appView.render();
+
+		// list quests
+			var questsView = new QuestsView({collection: new Quests, model: null, ctr: 0}); // render quests
+
+			this.appView.render().$el.append(questsView.el);
+
     },
 
     questView: function (id) {
@@ -40,7 +54,8 @@ define(['backbone', 'views/app', 'views/quest', 'views/quests', 'models/quest', 
         questsView = new QuestsView({collection: null, model: quest});
 
       quest.fetch();
-      questsView.render();
+
+      this.appView.render().$el.append(questsView.render().$el);
 
     },
 
@@ -53,7 +68,32 @@ define(['backbone', 'views/app', 'views/quest', 'views/quests', 'models/quest', 
 
       return false;
 
-    }
+    },
+
+		questEdit: function (id) {
+
+			var quest = new Quest({_id: id}), questView;
+
+			quest.fetch({silent: true});
+
+			questView = new QuestView({collection: null, model: quest});
+
+			this.appView.$el.html(this.appView.template()).append(questView.editQuest().$el);
+
+			return false;
+
+		},
+
+		questRemove: function (id) {
+
+			var quest = new Quest(),
+				questView = new QuestView({model: quest});
+
+			this.appView.$el.html(this.appView.template()).append(questView.newQuest().$el);
+
+			return false;
+
+		}
 
 	});
 

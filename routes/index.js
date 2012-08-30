@@ -63,7 +63,7 @@ exports.setRoutes = function (app, mongoose) {
   });
 
 	/* POSTs */
-	app.post('/api/quests/new', function (req, res) {
+	app.post('/api/quests', function (req, res) {
 
 		var quest, now = new Date();
 		console.log("Creating Quest");

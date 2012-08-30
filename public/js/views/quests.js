@@ -1,4 +1,4 @@
-define(['backbone', 'views/quest', 'text!templates/quests.html'], function(Backbone, QuestView, questsTemplate){
+define(['backbone', 'views/quest', 'text!templates/quests/list.html'], function(Backbone, QuestView, questsTemplate){
 
   "use strict";
 
@@ -6,7 +6,7 @@ define(['backbone', 'views/quest', 'text!templates/quests.html'], function(Backb
 
 		id:  "quests-list",
     tagName: "ul",
-    className: "list-plain",
+    className: "list-plain list",
 
 		template: _.template(questsTemplate),
 
@@ -15,11 +15,12 @@ define(['backbone', 'views/quest', 'text!templates/quests.html'], function(Backb
 
 		initialize: function(options) {
 
-      var $root = $(this.el);
+      var $root = this.$el;
 
       this.collection = options.collection || {};
       this.model = options.model || {};
 
+			// we also use this view for the models, so collections might be empty
       if (!_.isEmpty(options.collection)) {
 
         this.collection.bind('change reset', this.render, this);
@@ -32,35 +33,33 @@ define(['backbone', 'views/quest', 'text!templates/quests.html'], function(Backb
 
 		},
 
-    getRoot: function() {
-      return $("#" + this.id);
-    },
-
 		render: function() {
 
-      var $root = this.getRoot(),
-        data = {};
+      var $root = this.$el, data = {}, ctr = 0, singleView = _.isEmpty(this.collection), questView;
 
-      if(!_.isEmpty(this.collection)) {
+			// we use this for both a single or multiple quests
+      if(!singleView) {
         data = this.collection.toJSON();
       } else if (!_.isEmpty(this.model)) {
         data = [this.model.toJSON()];
       }
 
       // set up base template
-      $root.html("").before(this.template({Quests: data}));
+      $root.empty().before(this.template({Quests: data}));
 
-      // append each template
-      if(this.collection.length > 1) {
-        this.collection.each(function (quest) {
-          var questView = new QuestView({model: quest});
+      // multiple quests
+      if(!singleView) {
+
+				this.collection.each(function (quest) {
+
+					questView = new QuestView({model: quest, singleView: false, newRow: (++ctr % 4 === 0) });
 
           $root.append(questView.render().$el);
         });
 
       } else {
 
-        var questView = new QuestView({model: this.model});
+        questView = new QuestView({model: this.model, singleView: true, lastPage: '#quests' });
 
         $root.append(questView.$el);
 

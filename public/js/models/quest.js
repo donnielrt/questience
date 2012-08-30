@@ -2,7 +2,7 @@ define(['backbone'], function(Backbone) {
 
   "use strict";
 
-	var QuestModel = Backbone.Model.extend({
+	return Backbone.Model.extend({
 
     idAttribute: "_id",
 
@@ -17,18 +17,16 @@ define(['backbone'], function(Backbone) {
 		defaults: {
       _id: null,
       name: "Untitled Quest",
+			description: "",
+			deadline: "",
       created: new Date(),
       updated: new Date()
 
 		},
 
 		initialize: function() {
-
-      console.log("Quest model initialized");
-
 		}
 
 	});
 
-	return QuestModel;
 });
