@@ -75,6 +75,7 @@ module.exports = function () {
 
       var schema = new Schema({
         name: String,
+        description: String,
         tasks: [that.Task],
         owner: mongoose.Schema.ObjectId,
         deadline: Date,

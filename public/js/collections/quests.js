@@ -1,4 +1,4 @@
-define(['backbone',	'models/quest', 'views/quest'], function(Backbone, Quest, QuestView){
+define(['backbone',	'models/quest', 'views/quests/single'], function(Backbone, Quest, QuestView){
 
   "use strict";
 

@@ -1,5 +1,21 @@
-define(['backbone', 'views/app', 'views/quest', 'views/quests', 'models/quest', 'collections/quests'],
-  function(Backbone, AppView, QuestView, QuestsView, Quest, Quests){
+define([
+  'backbone',
+  'views/app',
+  'views/quests/single',
+  'views/quests/form',
+  'views/quests/remove',
+  'views/quests/list',
+  'models/quest',
+  'collections/quests'],
+  function(
+    Backbone,
+    AppView,
+    QuestView,
+    QuestFormView,
+    QuestDeleteView,
+    QuestsView,
+    Quest,
+    Quests){
 
   "use strict";
 
@@ -62,9 +78,9 @@ define(['backbone', 'views/app', 'views/quest', 'views/quests', 'models/quest', 
     questNew: function () {
 
       var quest = new Quest(),
-        questView = new QuestView({model: quest});
+        questView = new QuestFormView({model: quest});
 
-      this.appView.$el.html(this.appView.template()).append(questView.newQuest().$el);
+      this.appView.$el.html(this.appView.template()).append(questView.render().$el);
 
       return false;
 
@@ -74,11 +90,12 @@ define(['backbone', 'views/app', 'views/quest', 'views/quests', 'models/quest', 
 
 			var quest = new Quest({_id: id}), questView;
 
-			quest.fetch({silent: true});
+      questView = new QuestFormView({model: quest});
+			quest.fetch();
 
-			questView = new QuestView({collection: null, model: quest});
+      console.log("Quest: ", quest);
 
-			this.appView.$el.html(this.appView.template()).append(questView.editQuest().$el);
+			this.appView.$el.html(this.appView.template()).append(questView.render().$el);
 
 			return false;
 
@@ -86,12 +103,16 @@ define(['backbone', 'views/app', 'views/quest', 'views/quests', 'models/quest', 
 
 		questRemove: function (id) {
 
-			var quest = new Quest(),
-				questView = new QuestView({model: quest});
+      var quest = new Quest({_id: id}), questView;
 
-			this.appView.$el.html(this.appView.template()).append(questView.newQuest().$el);
+      questView = new QuestDeleteView({model: quest});
+      quest.fetch();
 
-			return false;
+      console.log("Removing: ", quest);
+
+      this.appView.$el.html(this.appView.template()).append(questView.render().$el);
+
+      return false;
 
 		}
 

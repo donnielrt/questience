@@ -1,4 +1,4 @@
-define(['backbone', 'views/quest', 'text!templates/quests/list.html'], function(Backbone, QuestView, questsTemplate){
+define(['backbone', 'views/quests/single', 'text!templates/quests/list.html'], function(Backbone, QuestView, questsTemplate){
 
   "use strict";
 

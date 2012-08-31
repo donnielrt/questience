@@ -3,3 +3,4 @@
 body{padding-top:60px;padding-bottom:40px}
 .list-plain{list-style:none;border-bottom:15px}
 .list .list-row-new{margin-left:0}
+.is-not-displayed{display:none}

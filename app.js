@@ -46,7 +46,7 @@ app.configure(function()
 	app.use(app.router);
 	app.use(express.logger('dev'));
 
-  app.set('port', process.env.PORT || 3000);
+  app.set('port', process.env.PORT || 8080);
 });
 
 app.configure('development', function(){

@@ -10,43 +10,67 @@ console.log("Models: ", models);
 
 exports.setRoutes = function (app, mongoose) {
 
-	/* GETs */
-	app.get('/', function (req, res) {
-		res.render('index', { title:'Home' });
-	});
+	/* CREATEs */
+	app.post('/api/quests', function (req, res) {
 
-	app.get('/about', function (req, res) {
-		res.render('about', { title:'About Questience' });
-	});
+		var quest, now = new Date();
+		console.log("Creating Quest");
 
-	app.get('/api/quests', function (req, res) {
+		quest = new Quests({
+			name: req.body.name,
+      description: req.body.description,
+			created: now,
+			updated: now
+		});
 
-		Quests.find().execFind(function (error, quests) {
-
+		quest.save(function (error) {
 			if (!error) {
-				console.log("Quests found: ", quests.length);
-				res.send(quests);
+				console.log("Saved");
 			} else {
-				console.log("Error", error);
+				console.log("Error saving quest");
 			}
-
 		});
 
+		return res.send(quest);
 	});
 
-	app.get('/api/quests/:id', function (req, res) {
+  /* RETRIEVEs */
+  app.get('/', function (req, res) {
+    res.render('index', { title:'Home' });
+  });
 
-		Quests.findById(req.params.id, function (error, quest) {
+  app.get('/about', function (req, res) {
+    res.render('about', { title:'About Questience' });
+  });
 
-			if (!error && quest) {
-				res.send(quest);
-			} else {
-				res.send(null);
-			}
+  app.get('/api/quests', function (req, res) {
 
-		});
+    Quests.find().execFind(function (error, quests) {
 
-	});
+      if (!error) {
+        console.log("Quests found: ", quests.length);
+        res.send(quests);
+      } else {
+        console.log("Error", error);
+      }
+
+    });
+
+  });
+
+  app.get('/api/quests/:id', function (req, res) {
+
+    Quests.findById(req.params.id, function (error, quest) {
+
+      if (!error && quest) {
+        res.send(quest);
+      } else {
+        res.send(null);
+      }
+
+    });
+
+  });
 
   app.get('/quests/:id', function (req, res) {
 
@@ -62,27 +86,52 @@ exports.setRoutes = function (app, mongoose) {
 
   });
 
-	/* POSTs */
-	app.post('/api/quests', function (req, res) {
+  /* UPDATEs */
 
-		var quest, now = new Date();
-		console.log("Creating Quest");
+  app.put('/api/quests/:id', function (req, res) {
 
-		quest = new Quests({
-			name: req.body.name,
-			created: now,
-			updated: now
-		});
+    var quest, now = new Date();
+    console.log("Updating Quest");
 
-		quest.save(function (error) {
-			if (!error) {
-				console.log("Saved");
-			} else {
-				console.log("Error saving quest");
-			}
-		});
+    quest = Quests.findById(req.params.id, function(err, quest) {
 
-		return res.send(quest);
-	});
+      quest.name = req.body.name;
+      quest.description = req.body.description;
+      quest.updated = now;
+
+      console.log("Description: ", req.body.description);
+
+      quest.save(function (error) {
+        if (!error) {
+          console.log("Saved");
+        } else {
+          console.log("Error saving quest");
+        }
+      });
+
+    });
+
+    return res.send(quest);
+  });
+
+  /* DELETEs */
+
+  app.delete('/api/quests/:id', function(req, res){
+
+    console.log("Deleting quest");
+
+    return Quests.findById(req.params.id, function(err, quest) {
+      if (quest !== null) {
+        return quest.remove(function(err) {
+          if (!err) {
+            console.log("removed");
+            return res.send('');
+          }
+        });
+      } else {
+        return res.send('', 404);
+      }
+    });
+  });
 
 };
