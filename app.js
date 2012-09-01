@@ -51,10 +51,21 @@ app.configure(function()
 
 app.configure('development', function(){
 	app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
+  mongoose.connect('mongodb://localhost/questience');
 });
 
-/* Models */
-mongoose.connect('mongodb://localhost/questience');
+/* DB */
+application.configure('staging', function() {
+  console.log('Configuring middleware for the production environment.');
+  application.use(express.static(__dirname + '/public'));
+  mongoose.connect('mongodb://heroku_app7204375:5bes70u23r9ucvje0m2frjhb89@ds037447-a.mongolab.com:37447/heroku_app7204375');
+});
+
+application.configure('staging', function() {
+  console.log('Configuring middleware for the production environment.');
+  application.use(express.static(__dirname + '/public'));
+  mongoose.connect('mongodb://heroku_app7204375:5bes70u23r9ucvje0m2frjhb89@ds037447-a.mongolab.com:37447/heroku_app7204375');
+});
 
 /**
  * Routes
