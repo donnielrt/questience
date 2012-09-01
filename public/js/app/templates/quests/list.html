@@ -1,9 +1,30 @@
 <div class="row-fluid quests">
 
-    <% if(!Quests.length) { %>
-    <ul id="#quests-list">
-        <li class="span12"><h2>No Quests found!</h2></li>
-    </ul>
-    <% } %>
+    <div class="well span12">
+
+        <ul id="#quests-list" class="list list-plain">
+        <% if(!Quests.length) { %>
+            <li class="span12"><h2>You have not created any quests!</h2><p>Why don't you <a href="quests/new">begin your epic journey</a>?</p></li>
+        <% } else { %>
+            <% _.each(Quests, function (quest) {
+                if(++ctr % 4 === 0) {
+                    newRow = " list-row-new";
+                }
+                else {
+                    newRow = "";
+                }
+            %>
+            <li class="quest-item<%= newRow %>">
+                <a href="#quests/<%= quest._id %>" data-internal="true"><h2><%= quest.name %></h2></a>
+                <p><%= quest.description %></p>
+                <p><a class="btn" href="#quests/<%= quest._id %>" data-internal="true">View details &raquo;</a></p>
+
+            </li>
+            <%
+            }); %>
+        <% }  %>
+        </ul>
+
+    </div>
 
 </div><!--/row-->

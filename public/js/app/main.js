@@ -1,12 +1,15 @@
 require.config({
 	paths: {
-		"modernizr": "../libs/modernizr.min",
-		"bootstrap": "../libs/bootstrap.min",
-		"underscore": "../libs/underscore",
-		"backbone": "../libs/backbone",
-    "backbone-forms": "../libs/backbone-forms",
-		"analytics": "//google-analytics.com/ga",
-    "text": "../libs/text"
+
+    "modernizr": "../libs/modernizr.min",
+    "text": "../libs/require/text",
+    "underscore": "../libs/underscore",
+
+    "bootstrap": "../libs/bootstrap/bootstrap.min",
+
+		"backbone": "../libs/backbone/backbone",
+
+    "analytics": "//google-analytics.com/ga"
 	},
 	shim: {
 		'backbone': {

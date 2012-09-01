@@ -11,7 +11,7 @@ define([
 
 	return Backbone.View.extend({
 
-		tagName:  "li",
+		tagName:  "div",
 
 		events: {
 		},
@@ -30,7 +30,7 @@ define([
 
 		},
 
-		render: function(options) {
+		render: function() {
 
 			var templateData = this.model.toJSON();
 
@@ -40,7 +40,7 @@ define([
 
       if(this.singleView) {
         templateData = _.extend(this.model.toJSON(), { lastPage: this.lastPage } );
-        this.$el.addClass("span8").html(_.template(singleQuestTemplate)(templateData));
+        this.$el.html(_.template(singleQuestTemplate)(templateData));
       } else {
         this.$el.addClass("span4").html(_.template(questItemTemplate)(templateData));
       }

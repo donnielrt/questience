@@ -1,25 +1,30 @@
-<div class="row-fluid">
-	<div class="span8"><h2><%= name %></h2></div>
-	<div class="span4">
-		<div class="span4">
-			<div class="btn-group">
-				<a class="btn btn-inverse dropdown-toggle" data-toggle="dropdown" href="#">Actions <span class="caret"></span></a>
-				<ul class="dropdown-menu">
-					<li><a data-internal="true" href="#quests/<%= _id %>/edit">Edit</a></li>
-					<li><a data-internal="true" href="#quests/<%= _id %>/remove">Remove</a></li>
-				</ul>
+<div class="well">
 
-			</div>
-		</div>
-	</div>
-</div>
+    <div class="row-fluid">
+        <div class="span12"><h2><%= name %></h2></div>
+    </div>
 
-<div class="row-fluid">
-	<div class="span12"><p><%= description %></p></div>
-</div>
+    <div class="row-fluid">
+        <div class="span12"><p><%= description %></p></div>
+    </div>
 
-<div class="row-fluid">
+    <div class="row-fluid">
 
-	<div class="span3"><a class="btn"  data-internal="true" href="<%= lastPage %>">&laquo; Back</a></div>
+        <div class="span12">
+
+            <div class="btn-group actions-group pull-left">
+                <a class="btn btn-inverse dropdown-toggle" data-toggle="dropdown" href="#">Actions <span
+                    class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a data-internal="true" href="#quests/<%= _id %>/edit">Edit</a></li>
+                    <li><a data-internal="true" href="#quests/<%= _id %>/remove">Delete</a></li>
+                </ul>
+
+            </div>
+            <a class="btn pull-left" data-internal="true" href="<%= lastPage %>">&laquo; Back</a>
+
+        </div>
+
+    </div>
 
 </div>

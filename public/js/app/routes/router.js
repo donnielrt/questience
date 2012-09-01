@@ -5,6 +5,7 @@ define([
   'views/quests/form',
   'views/quests/remove',
   'views/quests/list',
+  'text!templates/common/header.html',
   'models/quest',
   'collections/quests'],
   function(
@@ -14,6 +15,7 @@ define([
     QuestFormView,
     QuestDeleteView,
     QuestsView,
+    HeaderView,
     Quest,
     Quests){
 
@@ -62,6 +64,10 @@ define([
 
 		},
 
+    getHeader: function (title, description) {
+      return _.template(HeaderView, { title: title, description: description } );
+    },
+
     quests: function (append) {
 
       // list quests
@@ -70,7 +76,7 @@ define([
       if(append) {
         this.appView.render().$el.append(questsView.el);
       } else {
-        this.appView.$el.html(questsView.el);
+        this.appView.$el.html(this.getHeader("Quests", "Here are you current quests")).append(questsView.el);
       }
 
 
@@ -81,11 +87,23 @@ define([
     questView: function (id) {
 
       var quest = new Quest({_id: id}),
-        questsView = new QuestsView({collection: null, model: quest});
+        questsView,
+        $root = this.appView.$el,
+        that = this;
 
-      quest.fetch();
+      questsView = new QuestView({model: quest, singleView: true});
 
-      this.appView.$el.html(questsView.render().$el);
+      quest.fetch({
+        success: function(model, response) {
+
+          $root.html(that.getHeader(model.get('name'), model.get('description')));
+          $root.append(questsView.$el);
+
+        }
+      });
+
+
+
       return this;
 
     },
@@ -95,7 +113,7 @@ define([
       var quest = new Quest(),
         questView = new QuestFormView({model: quest});
 
-      this.appView.$el.html(questView.render().$el);
+      this.appView.$el.html(this.getHeader("Create Quest", "Enter quest details here")).append(questView.render().$el);
 
       return this;
 
@@ -103,12 +121,18 @@ define([
 
 		questEdit: function (id) {
 
-			var quest = new Quest({_id: id}), questView;
+			var quest = new Quest({_id: id}),
+        questView,
+        $root = this.appView.$el,
+        that = this;
 
       questView = new QuestFormView({model: quest});
-			quest.fetch();
-
-			this.appView.$el.html(questView.render().$el);
+			quest.fetch({
+        success: function(model, response) {
+          $root.html(that.getHeader(model.get('name'), model.get('description')));
+          $root.append(questView.$el);
+        }
+      });
 
       return this;
 
@@ -116,12 +140,18 @@ define([
 
 		questRemove: function (id) {
 
-      var quest = new Quest({_id: id}), questView;
+      var quest = new Quest({_id: id}),
+        questView,
+        $root = this.appView.$el,
+        that = this;
 
       questView = new QuestDeleteView({model: quest});
-      quest.fetch();
-
-      this.appView.$el.html(questView.render().$el);
+      quest.fetch({
+        success: function(model, response) {
+          $root.html(that.getHeader(model.get('name'), model.get('description')));
+          $root.append(questView.$el);
+        }
+      });
 
       return this;
 

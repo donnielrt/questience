@@ -1,12 +1,12 @@
-define(['backbone', 'views/quests/single', 'text!templates/quests/list.html'], function(Backbone, QuestView, questsTemplate){
+define(['backbone', 'text!templates/quests/list.html'], function(Backbone, questsTemplate){
 
   "use strict";
 
 	var QuestsView = Backbone.View.extend({
 
-		id:  "quests-list",
-    tagName: "ul",
-    className: "list-plain list",
+		tag: "ul",
+    id: "quests-list",
+    className: "list list-plain",
 
 		template: _.template(questsTemplate),
 
@@ -35,35 +35,10 @@ define(['backbone', 'views/quests/single', 'text!templates/quests/list.html'], f
 
 		render: function() {
 
-      var $root = this.$el, data = {}, ctr = 0, singleView = _.isEmpty(this.collection), questView;
-
-			// we use this for both a single or multiple quests
-      if(!singleView) {
-        data = this.collection.toJSON();
-      } else if (!_.isEmpty(this.model)) {
-        data = [this.model.toJSON()];
-      }
+      var $root = this.$el, Quests = this.collection.toJSON();
 
       // set up base template
-      $root.empty().before(this.template({Quests: data}));
-
-      // multiple quests
-      if(!singleView) {
-
-				this.collection.each(function (quest) {
-
-					questView = new QuestView({model: quest, singleView: false, newRow: (++ctr % 4 === 0) });
-
-          $root.append(questView.render().$el);
-        });
-
-      } else {
-
-        questView = new QuestView({model: this.model, singleView: true, lastPage: '#quests' });
-
-        $root.append(questView.$el);
-
-      }
+      $root.html(this.template({Quests: Quests, ctr: 0}));
 
       return this;
 		}

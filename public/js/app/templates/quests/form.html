@@ -1,13 +1,13 @@
 <div class="alert is-not-displayed"></div>
 <fieldset>
 
-    <legend><%= name %></legend>
+    <legend><%= isNew %> Quest</legend>
 
     <div class="control-group">
         <label class="control-label" for="name">Name</label>
 
         <div class="controls">
-            <input type="text" id="name" name="name" placeholder="Quest Name" value="<%= name %>"/>
+            <input type="text" id="name" class="input-xxlarge" name="name" placeholder="Quest Name" value="<%= name %>"/>
         </div>
     </div>
 
@@ -15,7 +15,7 @@
         <label class="control-label" for="description">Description</label>
 
         <div class="controls">
-            <textarea id="description" name="description" placeholder="Quest Description"><%= description %></textarea>
+            <textarea id="description" class="input-xxlarge" name="description" placeholder="Quest Description"><%= description %></textarea>
         </div>
     </div>
 

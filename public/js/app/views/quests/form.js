@@ -37,6 +37,13 @@ define([
 
 			var templateData = this.model.toJSON();
 
+      templateData.isNew = this.model.isNew() ? "Create " : "Edit ";
+
+      _.defer(function() {
+
+        // datepicker
+
+      });
       this.$el.html($(_.template(questFormTemplate)(templateData)));
 
       return this;
