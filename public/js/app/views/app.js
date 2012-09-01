@@ -12,9 +12,6 @@ define(['backbone', 'text!templates/index.html'], function(Backbone, indexTempla
     },
 
     initialize: function() {
-
-      this.render();
-
     },
 
     render: function() {

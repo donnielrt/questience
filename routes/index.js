@@ -6,8 +6,6 @@ var mongoose = require('mongoose'),
 	Tasks = models.Tasks(),
 	Quests = models.Quests();
 
-console.log("Models: ", models);
-
 exports.setRoutes = function (app, mongoose) {
 
 	/* CREATEs */
@@ -72,20 +70,6 @@ exports.setRoutes = function (app, mongoose) {
 
   });
 
-  app.get('/quests/:id', function (req, res) {
-
-    Quests.findById(req.params.id, function (error, quest) {
-
-      if (!error && quest) {
-        res.render('quest', {title: quest.name, quest: quest} );
-      } else {
-        res.render(null);
-      }
-
-    });
-
-  });
-
   /* UPDATEs */
 
   app.put('/api/quests/:id', function (req, res) {
@@ -132,6 +116,10 @@ exports.setRoutes = function (app, mongoose) {
         return res.send('', 404);
       }
     });
+  });
+
+  app.all('*', function(req, res) {
+    res.redirect('/');
   });
 
 };

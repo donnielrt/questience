@@ -23,6 +23,7 @@ define([
 
 		routes:{
 			"": "home",
+      "about": "noop",
       "quests": "quests",
       "quests/new": "questNew",
       "quests/:id": "questView",
@@ -45,22 +46,35 @@ define([
 
     },
 
+    /* routes we don't want backbone to handle */
+    noop: function() { },
+
     start: function () {
-      Backbone.history.start();
+      Backbone.history.start({pushState: true});
     },
 
 		home: function () {
 
-			this.quests();
+      this.appView.render();
+      this.quests(true);
+
+      return this;
 
 		},
 
-    quests: function () {
+    quests: function (append) {
 
-		// list quests
-			var questsView = new QuestsView({collection: new Quests, model: null, ctr: 0}); // render quests
+      // list quests
+			var questsView = new QuestsView({collection: new Quests(), model: null, ctr: 0}); // render quests
 
-			this.appView.render().$el.append(questsView.el);
+      if(append) {
+        this.appView.render().$el.append(questsView.el);
+      } else {
+        this.appView.$el.html(questsView.el);
+      }
+
+
+      return questsView.el;
 
     },
 
@@ -71,7 +85,8 @@ define([
 
       quest.fetch();
 
-      this.appView.render().$el.append(questsView.render().$el);
+      this.appView.$el.html(questsView.render().$el);
+      return this;
 
     },
 
@@ -80,9 +95,9 @@ define([
       var quest = new Quest(),
         questView = new QuestFormView({model: quest});
 
-      this.appView.$el.html(this.appView.template()).append(questView.render().$el);
+      this.appView.$el.html(questView.render().$el);
 
-      return false;
+      return this;
 
     },
 
@@ -93,11 +108,9 @@ define([
       questView = new QuestFormView({model: quest});
 			quest.fetch();
 
-      console.log("Quest: ", quest);
+			this.appView.$el.html(questView.render().$el);
 
-			this.appView.$el.html(this.appView.template()).append(questView.render().$el);
-
-			return false;
+      return this;
 
 		},
 
@@ -108,11 +121,9 @@ define([
       questView = new QuestDeleteView({model: quest});
       quest.fetch();
 
-      console.log("Removing: ", quest);
+      this.appView.$el.html(questView.render().$el);
 
-      this.appView.$el.html(this.appView.template()).append(questView.render().$el);
-
-      return false;
+      return this;
 
 		}
 

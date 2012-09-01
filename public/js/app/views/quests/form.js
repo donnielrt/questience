@@ -1,11 +1,19 @@
 define([
 	'backbone',
+  'questience',
 	'collections/quests',
 	'models/quest',
 	'text!templates/quests/single.html',
 	'text!templates/quests/_item.html',
 	'text!templates/quests/form.html'],
-  function(Backbone, Quests, Quest, singleQuestTemplate, questItemTemplate, questFormTemplate){
+  function(
+    Backbone,
+    Questience,
+    Quests,
+    Quest,
+    singleQuestTemplate,
+    questItemTemplate,
+    questFormTemplate){
 
   "use strict";
 
@@ -42,8 +50,6 @@ define([
 
       var status = this.model.isNew ? "new" : this.model.status;
 
-      console.log("Saving");
-
       this.model.set({
         name: $("#name").val(),
         description: $("#description").val(),
@@ -56,12 +62,15 @@ define([
       if (this.model.isNew()) {
         this.collection.create(this.model);
       } else {
-        this.model.save({
-          success: function () {
-            Backbone.navigate('/');
+        this.model.save(this.model.toJSON(), {
+          wait: true,
+          success: function (model, response) {
+            $(".alert").html("Your changes have been saved!").removeClass().addClass('alert alert-success').alert('close');
+            Questience.appRouter.navigate('#quests', {trigger: true});
           },
           error: function () {
-            $(".alert").html("There was an error saving the quest! Please try again later.").alert('close');
+            alert("Not Saved");
+            $(".alert").html("There was an error saving the quest! Please try again later.").removeClass().addClass('alert alert-error').alert('close');
           }
         });
       }
