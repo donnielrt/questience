@@ -1,6 +1,5 @@
 @import 'bootstrap.min.css';
 @import 'bootstrap-responsive.min.css';
-@import 'daterangepicker.css';
 body{padding-top:60px;padding-bottom:40px}
 .actions-group{margin-right:15px}
 .list-plain{list-style:none;border-bottom:15px}
