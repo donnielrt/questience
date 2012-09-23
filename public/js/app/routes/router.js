@@ -7,7 +7,8 @@ define([
   'views/quests/list',
   'text!templates/common/header.html',
   'models/quest',
-  'collections/quests'],
+  'collections/quests',
+  'questience'],
   function(
     Backbone,
     AppView,
@@ -17,7 +18,8 @@ define([
     QuestsView,
     HeaderView,
     Quest,
-    Quests){
+    Quests,
+    Questience){
 
   "use strict";
 
@@ -42,7 +44,7 @@ define([
       $("body").on("click", "a[data-internal]", function(e) {
 
         e.preventDefault();
-        Backbone.history.navigate($(this).attr('href'), true);
+        Questience.appRouter.navigate($(this).attr('href'), true);
 
       });
 

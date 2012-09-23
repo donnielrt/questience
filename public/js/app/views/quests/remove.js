@@ -2,8 +2,9 @@ define([
 	'backbone',
 	'collections/quests',
 	'models/quest',
-	'text!templates/quests/remove.html'],
-  function(Backbone, Quests, Quest, questDeleteTemplate){
+	'text!templates/quests/remove.html',
+  'questience'],
+  function(Backbone, Quests, Quest, questDeleteTemplate, Questience){
 
   "use strict";
 
@@ -32,10 +33,11 @@ define([
     removeQuest: function() {
       this.model.destroy({
         success: function() {
-          Backbone.history.navigate('/quests');
+          console.log("Deleted");
+          Questience.appRouter.navigate('/quests', {trigger: true});
         },
         error: function() {
-          Backbone.history.navigate('/quests/' + this.model._id + '#delete-error');
+          Questience.appRouter.navigate('/quests/' + this.model._id + '#delete-error', {trigger: true});
         }
       });
     },

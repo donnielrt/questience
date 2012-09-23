@@ -55,13 +55,7 @@ app.configure('development', function(){
 });
 
 /* DB */
-application.configure('staging', function() {
-  console.log('Configuring middleware for the production environment.');
-  application.use(express.static(__dirname + '/public'));
-  mongoose.connect('mongodb://heroku_app7204375:5bes70u23r9ucvje0m2frjhb89@ds037447-a.mongolab.com:37447/heroku_app7204375');
-});
-
-application.configure('staging', function() {
+app.configure('staging', function() {
   console.log('Configuring middleware for the production environment.');
   application.use(express.static(__dirname + '/public'));
   mongoose.connect('mongodb://heroku_app7204375:5bes70u23r9ucvje0m2frjhb89@ds037447-a.mongolab.com:37447/heroku_app7204375');

@@ -5,7 +5,8 @@ define([
 	'models/quest',
 	'text!templates/quests/single.html',
 	'text!templates/quests/_item.html',
-	'text!templates/quests/form.html'],
+	'text!templates/quests/form.html',
+  'rangepicker'],
   function(
     Backbone,
     Questience,
@@ -13,7 +14,8 @@ define([
     Quest,
     singleQuestTemplate,
     questItemTemplate,
-    questFormTemplate){
+    questFormTemplate,
+    rangePicker){
 
   "use strict";
 
@@ -35,13 +37,21 @@ define([
 
 		render: function() {
 
-			var templateData = this.model.toJSON();
+			var templateData = this.model.toJSON(), that = this;
 
-      templateData.isNew = this.model.isNew() ? "Create " : "Edit ";
+      templateData.formEditMode = this.model.isNew() ? "Create " : "Edit ";
 
       _.defer(function() {
 
         // datepicker
+
+        that.$("input[name='deadline']").daterangepicker({
+          presetRanges: [
+            {text: 'Tomorrow', dateStart: 'Tomorrow', dateEnd: 'Tomorrow' },
+            {text: 'This week', dateStart: 'Today+7', dateEnd: 'Today+7' },
+            {text: 'Next 30 Days', dateStart: 'Today+30', dateEnd: 'Today+30' }
+          ]
+        });
 
       });
       this.$el.html($(_.template(questFormTemplate)(templateData)));
@@ -57,10 +67,12 @@ define([
 
       var status = this.model.isNew ? "new" : this.model.status;
 
+      console.log("Deadline: ", this.$("input[name='deadline']").val());
+
       this.model.set({
-        name: $("#name").val(),
-        description: $("#description").val(),
-        deadline: $("#deadline").val(),
+        name: this.$("input[name='name']").val(),
+        description: this.$("textarea[name='description']").val(),
+        deadline: this.$("input[name='deadline']").val(),
         status: status
       });
 

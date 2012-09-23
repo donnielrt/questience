@@ -81,6 +81,7 @@ exports.setRoutes = function (app, mongoose) {
 
       quest.name = req.body.name;
       quest.description = req.body.description;
+      quest.deadline = req.body.deadline;
       quest.updated = now;
 
       console.log("Description: ", req.body.description);

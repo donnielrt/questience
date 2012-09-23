@@ -9,7 +9,10 @@ require.config({
 
 		"backbone": "../libs/backbone/backbone",
 
-    "analytics": "//google-analytics.com/ga"
+    "analytics": "//google-analytics.com/ga",
+    "jquery-ui": "../libs/plugins/jquery-ui",
+    "rangepicker": "../libs/plugins/rangepicker.min",
+    "moment": "../libs/plugins/moment"
 	},
 	shim: {
 		'backbone': {
@@ -19,6 +22,10 @@ require.config({
     'backbone-forms': {
       deps: ['underscore', 'backbone'],
       exports: 'BackboneForms'
+    },
+    'rangepicker': {
+      deps: ['jquery', 'jquery-ui'],
+      exports: 'rangePicker'
     }
 	}
 });

@@ -1,4 +1,4 @@
-define(['backbone'], function(Backbone) {
+define(['backbone', 'moment'], function(Backbone, moment) {
 
   "use strict";
 
@@ -25,7 +25,15 @@ define(['backbone'], function(Backbone) {
 		},
 
 		initialize: function() {
-		}
+		},
+
+    parse: function(response) {
+
+      response.deadline = moment(response.deadline).format("MM/DD/YYYY");
+
+      return response;
+
+    }
 
 	});
 
