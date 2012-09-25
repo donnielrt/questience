@@ -4,10 +4,10 @@
 
         <ul id="#quests-list" class="list list-plain">
         <% if(!Quests.length) { %>
-            <li class="span12"><h2>You have not created any quests!</h2><p>Why don't you <a href="quests/new">begin your epic journey</a>?</p></li>
+            <li class="span12"><h2>You have not created any quests!</h2><p>Why don't you <a data-internal="true" href="quests/new">begin your epic journey</a>?</p></li>
         <% } else { %>
             <% _.each(Quests, function (quest) {
-                if(++ctr % 4 === 0) {
+                if(ctr++ % 3 === 0) {
                     newRow = " list-row-new";
                 }
                 else {

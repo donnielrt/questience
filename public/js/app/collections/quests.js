@@ -6,7 +6,7 @@ define(['backbone',	'models/quest', 'views/quests/single'], function(Backbone, Q
 
     url: "/api/quests",
 
-		model: Quest,
+	model: Quest,
 
     initialize: function () {
 

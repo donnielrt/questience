@@ -17,6 +17,7 @@ exports.setRoutes = function (app, mongoose) {
 		quest = new Quests({
 			name: req.body.name,
       description: req.body.description,
+      deadline: req.body.deadline,
 			created: now,
 			updated: now
 		});
@@ -43,8 +44,8 @@ exports.setRoutes = function (app, mongoose) {
 
   app.get('/api/quests', function (req, res) {
 
-    // fetch first 6 records
-    Quests.find().limit(6).execFind(function (error, quests) {
+    // fetch all records
+    Quests.find().execFind(function (error, quests) {
 
       if (!error) {
         console.log("Quests found: ", quests.length);

@@ -50,7 +50,8 @@ define([
             {text: 'Tomorrow', dateStart: 'Tomorrow', dateEnd: 'Tomorrow' },
             {text: 'This week', dateStart: 'Today+7', dateEnd: 'Today+7' },
             {text: 'Next 30 Days', dateStart: 'Today+30', dateEnd: 'Today+30' }
-          ]
+          ],
+          presets: []
         });
 
       });
@@ -65,7 +66,7 @@ define([
 
     saveQuest: function() {
 
-      console.log("Deadline: ", this.$("input[name='deadline']").val());
+      var result;
 
       this.model.set({
         name: this.$("input[name='name']").val(),
@@ -77,20 +78,27 @@ define([
       this.collection = new Quests();
 
       if (this.model.isNew()) {
-        this.collection.create(this.model);
-      } else {
-        this.model.save(this.model.toJSON(), {
-          wait: true,
-          success: function (model, response) {
-            $(".alert").html("Your changes have been saved!").removeClass().addClass('alert alert-success').alert('close');
-            Questience.appRouter.navigate('#quests', {trigger: true});
-          },
-          error: function () {
-            alert("Not Saved");
+
+        result = this.collection.create(this.model, {
+          error: function() {
             $(".alert").html("There was an error saving the quest! Please try again later.").removeClass().addClass('alert alert-error').alert('close');
           }
         });
+
+      } else {
+
+        result = this.model.save(this.model.toJSON(), {
+          error: function () {
+            $(".alert").html("There was an error saving the quest! Please try again later.").removeClass().addClass('alert alert-error').alert('close');
+          }
+        });
+
       }
+
+      if(result) {
+        Questience.appRouter.navigate('#quests/' + this.model._id, {trigger: true});
+      }
+
 
     }
 
