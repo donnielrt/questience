@@ -58,6 +58,22 @@ exports.setRoutes = function (app, mongoose) {
 
   });
 
+  app.get('/api/quests/limit/:num', function (req, res) {
+
+    // fetch all records
+    Quests.find().limit(req.params.num).execFind(function (error, quests) {
+
+      if (!error) {
+        console.log("Quests found: ", quests.length);
+        res.send(quests);
+      } else {
+        console.log("Error", error);
+      }
+
+    });
+
+  });
+
   app.get('/api/quests/:id', function (req, res) {
 
     Quests.findById(req.params.id, function (error, quest) {

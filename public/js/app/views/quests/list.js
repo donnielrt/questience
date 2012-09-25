@@ -4,9 +4,7 @@ define(['backbone', 'text!templates/quests/list.html'], function(Backbone, quest
 
 	var QuestsView = Backbone.View.extend({
 
-		tag: "ul",
-    id: "quests-list",
-    className: "list list-plain",
+    el: $("quests-list"),
 
 		template: _.template(questsTemplate),
 
@@ -15,30 +13,20 @@ define(['backbone', 'text!templates/quests/list.html'], function(Backbone, quest
 
 		initialize: function(options) {
 
-      var $root = this.$el;
-
       this.collection = options.collection || {};
-      this.model = options.model || {};
+      this.collection.limit = options.limit || -1;
+	    this.collection.bind('change reset', this.render, this);
 
-			// we also use this view for the models, so collections might be empty
-      if (!_.isEmpty(options.collection)) {
-
-        this.collection.bind('change reset', this.render, this);
-        this.collection.bind("add", function (quest) {
-          $root.append(new QuestView( { model:quest}).render().el);
-        });
-        this.collection.fetch();
-
-      }
+      this.$el = options.$el || this.$el;
 
 		},
 
 		render: function() {
 
-      var $root = this.$el, Quests = this.collection.toJSON();
+      var Quests = this.collection.toJSON();
+      this.$el.html(this.template({Quests: Quests}));
 
-      // set up base template
-      $root.html(this.template({Quests: Quests, ctr: 0}));
+      console.log("Rendering ", this.$el);
 
       return this;
 		}

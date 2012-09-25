@@ -41,9 +41,10 @@ define([
       this.appView = appView;
 
       // handle internal links without navigating away from the page
-      $("body").on("click", "a[data-internal]", function(e) {
+      $("body").on("click", "a:not([data-bypass])", function(e) {
 
         e.preventDefault();
+
         Questience.appRouter.navigate($(this).attr('href'), true);
 
       });
@@ -59,30 +60,26 @@ define([
 
 		home: function () {
 
+      var collection = new Quests({limit: 6}), questsView; // render quests      
+
       this.appView.render();
-      this.quests(true);
+
+      questsView = new QuestsView({collection: collection, $el: $("#quests-container")});
+
+      collection.fetch();
 
       return this;
 
 		},
 
-    getHeader: function (title, description) {
-      return _.template(HeaderView, { title: title, description: description } );
-    },
-
-    quests: function (append) {
+    quests: function () {
 
       // list quests
-			var questsView = new QuestsView({collection: new Quests(), model: null, ctr: 0}); // render quests
+			var collection = new Quests(), questsView = new QuestsView({collection: collection, $el: $("#questience-app")}); // render quests
 
-      if(append) {
-        this.appView.render().$el.append(questsView.el);
-      } else {
-        this.appView.$el.html(this.getHeader("Quests", "Here are you current quests")).append(questsView.el);
-      }
+      collection.fetch();
 
-
-      return questsView.el;
+      return this;
 
     },
 
@@ -98,13 +95,10 @@ define([
       quest.fetch({
         success: function(model, response) {
 
-          $root.html(that.getHeader(model.get('name'), model.get('description')));
-          $root.append(questsView.$el);
+          $root.html(questsView.$el);
 
         }
       });
-
-
 
       return this;
 
@@ -115,7 +109,7 @@ define([
       var quest = new Quest(),
         questView = new QuestFormView({model: quest});
 
-      this.appView.$el.html(this.getHeader("Create Quest", "Enter quest details here")).append(questView.render().$el);
+      this.appView.$el.html(questView.render().$el);
 
       return this;
 
@@ -131,8 +125,7 @@ define([
       questView = new QuestFormView({model: quest});
 			quest.fetch({
         success: function(model, response) {
-          $root.html(that.getHeader(model.get('name'), model.get('description')));
-          $root.append(questView.$el);
+          $root.html(questView.$el);
         }
       });
 
@@ -150,8 +143,7 @@ define([
       questView = new QuestDeleteView({model: quest});
       quest.fetch({
         success: function(model, response) {
-          $root.html(that.getHeader(model.get('name'), model.get('description')));
-          $root.append(questView.$el);
+          $root.html(questView.$el);
         }
       });
 

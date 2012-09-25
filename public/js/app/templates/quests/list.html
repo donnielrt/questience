@@ -2,9 +2,11 @@
 
     <div class="well span12">
 
-        <ul id="#quests-list" class="list list-plain">
-        <% if(!Quests.length) { %>
-            <li class="span12"><h2>You have not created any quests!</h2><p>Why don't you <a data-internal="true" href="quests/new">begin your epic journey</a>?</p></li>
+        <ul id="quests-list" class="list list-plain">
+        <% if(!Quests.length) { 
+            var ctr = 0;
+            %>
+            <li class="span12"><h2>You have not created any quests!</h2><p>Why don't you <a href="quests/new">begin your epic journey</a>?</p></li>
         <% } else { %>
             <% _.each(Quests, function (quest) {
                 if(ctr++ % 3 === 0) {
@@ -15,11 +17,11 @@
                 }
             %>
             <li class="quest-item<%= newRow %>">
-                <a href="#quests/<%= quest._id %>" data-internal="true"><h2><%= quest.name %></h2></a>
+                <a href="#quests/<%= quest._id %>"><h2><%= quest.name %></h2></a>
                 <p><%= quest.description %> &mdash; <span class="deadline <%= quest.deadlineStatus %>">Due <%= moment(quest.deadline).fromNow() %></span></p>
                 <p>Status: <span class="status"><%= quest.status %></span></p>
 
-                <p><a class="btn" href="#quests/<%= quest._id %>" data-internal="true">View details &raquo;</a></p>
+                <p><a class="btn" href="#quests/<%= quest._id %>">View details &raquo;</a></p>
 
             </li>
             <%

@@ -6,11 +6,17 @@ define(['backbone',	'models/quest', 'views/quests/single'], function(Backbone, Q
 
     url: "/api/quests",
 
-	model: Quest,
+		model: Quest,
 
-    initialize: function () {
+    initialize: function (options) {
 
-      console.log("Initializing Quests collection");
+    	options = options || {};
+    	this.limit = options.limit || -1;
+    	console.log("Initializing Quests collection, limit ", this.limit);
+
+    	if(this.limit > 0) {
+    		this.url = this.url + "/limit/" + this.limit;
+    	}
 
     }
 
