@@ -65,15 +65,13 @@ define([
 
     saveQuest: function() {
 
-      var status = this.model.isNew ? "new" : this.model.status;
-
       console.log("Deadline: ", this.$("input[name='deadline']").val());
 
       this.model.set({
         name: this.$("input[name='name']").val(),
         description: this.$("textarea[name='description']").val(),
         deadline: this.$("input[name='deadline']").val(),
-        status: status
+        status: this.$("select[name='status']").val()
       });
 
       this.collection = new Quests();

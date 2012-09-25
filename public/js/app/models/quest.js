@@ -29,7 +29,31 @@ define(['backbone', 'moment'], function(Backbone, moment) {
 
     parse: function(response) {
 
-      response.deadline = moment(response.deadline).format("MM/DD/YYYY");
+      var deadline, deadlineStatus = "", today = moment();
+
+      if(moment(response.deadline).isValid()) {
+
+        deadline = moment(response.deadline);
+
+        if(deadline.unix() < today.unix()) {
+          deadlineStatus = "deadline-past";
+        } else {
+          deadlineStatus = "deadline-future";
+        }
+        response.deadline = deadline.format("MM/DD/YYYY");
+
+      } else {
+        response.deadline = "Invalid or missing deadline";
+      }
+
+      if(!response.status || !response.status.length) {
+        response.status = "Pending";
+      } else {
+        // decipher status
+        response.status = response.status[0].name;
+      }
+
+      response.deadlineStatus = deadlineStatus;
 
       return response;
 

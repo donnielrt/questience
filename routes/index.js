@@ -43,7 +43,8 @@ exports.setRoutes = function (app, mongoose) {
 
   app.get('/api/quests', function (req, res) {
 
-    Quests.find().execFind(function (error, quests) {
+    // fetch first 6 records
+    Quests.find().limit(6).execFind(function (error, quests) {
 
       if (!error) {
         console.log("Quests found: ", quests.length);
@@ -74,7 +75,7 @@ exports.setRoutes = function (app, mongoose) {
 
   app.put('/api/quests/:id', function (req, res) {
 
-    var quest, now = new Date();
+    var quest, now = new Date(), status;
     console.log("Updating Quest");
 
     quest = Quests.findById(req.params.id, function(err, quest) {
@@ -83,6 +84,11 @@ exports.setRoutes = function (app, mongoose) {
       quest.description = req.body.description;
       quest.deadline = req.body.deadline;
       quest.updated = now;
+
+      // status
+      console.log("Status: ", req.body);
+      quest.status.remove();
+      quest.status = { name: req.body.status };
 
       console.log("Description: ", req.body.description);
 
