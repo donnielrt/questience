@@ -8,6 +8,7 @@ require.config({
     "bootstrap": "../libs/bootstrap/bootstrap.min",
 
 		"backbone": "../libs/backbone/backbone",
+    "backbone-validate": "../libs/backbone/backbone.validation.min",
 
     "analytics": "//google-analytics.com/ga",
     "jquery-ui": "../libs/plugins/jquery-ui",
@@ -22,6 +23,10 @@ require.config({
     'backbone-forms': {
       deps: ['underscore', 'backbone'],
       exports: 'BackboneForms'
+    },
+    'backbone-validate': {
+      deps: ['backbone'],
+      exports: 'BackboneValidate'
     },
     'rangepicker': {
       deps: ['jquery', 'jquery-ui'],
@@ -42,6 +47,14 @@ require(['modernizr', 'bootstrap', 'analytics', 'routes/router', 'questience'], 
 
 		// Google analytics
 		window._gaq = [['_setAccount','UA-XYZ-1'],['_trackPageview'],['_trackPageLoadTime']];
+
+    _.extend(Backbone.Validation.validators, {
+      dateValidator: function(value, attr, customValue, model) {
+        if(value !== customValue){
+          return 'error';
+        }
+      }
+    });
 
 	});
 

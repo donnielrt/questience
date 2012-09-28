@@ -1,4 +1,4 @@
-define(['backbone', 'moment'], function(Backbone, moment) {
+define(['backbone', 'backbone-validate', 'moment'], function(Backbone, validation, moment) {
 
   "use strict";
 
@@ -13,6 +13,22 @@ define(['backbone', 'moment'], function(Backbone, moment) {
       description: { validators: ['required', 'email'] },
       deadline: 'Date'
     },
+
+    /*validation: {
+      name: {
+        required: true,
+        min: 3,
+        max: 100,
+        msg: "Name is required"
+      },
+      description: {
+        max: 1000,
+        msg: "Invalid description"
+      },
+      deadline: {
+
+      }
+    },*/
 
 		defaults: {
       _id: null,
@@ -31,29 +47,36 @@ define(['backbone', 'moment'], function(Backbone, moment) {
 
       var deadline, deadlineStatus = "", today = moment();
 
-      if(moment(response.deadline).isValid()) {
+      if(response) {
 
-        deadline = moment(response.deadline);
+        if(response.deadline && moment(response.deadline).isValid()) {
 
-        if(deadline.unix() < today.unix()) {
-          deadlineStatus = "deadline-past";
+          deadline = moment(response.deadline);
+
+          if(deadline.unix() < today.unix()) {
+            deadlineStatus = "deadline-past";
+          } else {
+            deadlineStatus = "deadline-future";
+          }
+
+          // "6 days from now formatting"
+          response.humanFriendlyDeadline = deadline.fromNow();
+
         } else {
-          deadlineStatus = "deadline-future";
+          response.deadline = "date missing or invalid";
         }
-        response.deadline = deadline.format("MM/DD/YYYY");
 
-      } else {
-        response.deadline = "Invalid or missing deadline";
+        if(!response.status || !response.status.length) {
+          response.status = "Pending";
+        } else {
+          // decipher status
+          response.status = response.status[0].name;
+        }
+
+        response.deadlineStatus = deadlineStatus;
+
+
       }
-
-      if(!response.status || !response.status.length) {
-        response.status = "Pending";
-      } else {
-        // decipher status
-        response.status = response.status[0].name;
-      }
-
-      response.deadlineStatus = deadlineStatus;
 
       return response;
 

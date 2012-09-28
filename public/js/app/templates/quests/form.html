@@ -36,12 +36,12 @@
         <label class="control-label" for="deadline">Deadline</label>
 
         <div class="controls">
-            <input type="datetime" id="deadline" name="deadline" placeholder="Quest Deadline" value="<%= deadline %>"/>
+            <input type="datetime" id="deadline" name="deadline" placeholder="Quest Deadline" class="human-friendly-date" data-machine-date="<%= deadline %>" value="<%= humanFriendlyDeadline %>"/>
         </div>
     </div>
 
     <div class="controls">
-        <input type="button" name="save" class="btn btn-primary btn-save" value="save"/> <a href="" class="btn btn-cancel">Cancel</a>
+        <input type="button" name="save" class="btn btn-primary btn-save" value="save"/> <a href="/quests/<%= _id %>" class="btn btn-cancel">Cancel</a>
     </div>
 
 </fieldset>

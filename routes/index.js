@@ -45,7 +45,7 @@ exports.setRoutes = function (app, mongoose) {
   app.get('/api/quests', function (req, res) {
 
     // fetch all records
-    Quests.find().execFind(function (error, quests) {
+    Quests.find().sort("updated", -1).execFind(function (error, quests) {
 
       if (!error) {
         console.log("Quests found: ", quests.length);
@@ -61,7 +61,7 @@ exports.setRoutes = function (app, mongoose) {
   app.get('/api/quests/limit/:num', function (req, res) {
 
     // fetch all records
-    Quests.find().limit(req.params.num).execFind(function (error, quests) {
+    Quests.find().limit(req.params.num).sort("updated", -1).execFind(function (error, quests) {
 
       if (!error) {
         console.log("Quests found: ", quests.length);
@@ -107,13 +107,13 @@ exports.setRoutes = function (app, mongoose) {
       quest.status.remove();
       quest.status = { name: req.body.status };
 
-      console.log("Description: ", req.body.description);
+      console.log("Status: ", quest.status);
 
       quest.save(function (error) {
         if (!error) {
           console.log("Saved");
         } else {
-          console.log("Error saving quest");
+          console.log("Error saving quest", error);
         }
       });
 

@@ -12,8 +12,8 @@ define(['backbone',	'models/quest', 'views/quests/single'], function(Backbone, Q
 
     	options = options || {};
     	this.limit = options.limit || -1;
-    	console.log("Initializing Quests collection, limit ", this.limit);
 
+        // used when fetching a limited number of results
     	if(this.limit > 0) {
     		this.url = this.url + "/limit/" + this.limit;
     	}

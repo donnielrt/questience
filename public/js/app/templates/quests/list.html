@@ -18,7 +18,7 @@
             %>
             <li class="quest-item<%= newRow %>">
                 <a href="#quests/<%= quest._id %>"><h2><%= quest.name %></h2></a>
-                <p><%= quest.description %> &mdash; <span class="deadline <%= quest.deadlineStatus %>">Due <%= moment(quest.deadline).fromNow() %></span></p>
+                <p><%= quest.description %> &mdash; <span class="deadline <%= quest.deadlineStatus %>">Due <%= quest.humanFriendlyDeadline %></span></p>
                 <p>Status: <span class="status"><%= quest.status %></span></p>
 
                 <p><a class="btn" href="#quests/<%= quest._id %>">View details &raquo;</a></p>

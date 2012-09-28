@@ -6,7 +6,8 @@ define([
 	'text!templates/quests/single.html',
 	'text!templates/quests/_item.html',
 	'text!templates/quests/form.html',
-  'rangepicker'],
+  'rangepicker',
+  'moment'],
   function(
     Backbone,
     Questience,
@@ -15,7 +16,8 @@ define([
     singleQuestTemplate,
     questItemTemplate,
     questFormTemplate,
-    rangePicker){
+    rangePicker,
+    moment){
 
   "use strict";
 
@@ -32,6 +34,7 @@ define([
 		initialize: function(options) {
 
 			this.model.bind('reset change', this.render, this);
+      //Backbone.Validation.bind(this);
 
 		},
 
@@ -41,6 +44,7 @@ define([
 
       templateData.formEditMode = this.model.isNew() ? "Create " : "Edit ";
 
+      // loading immediately seems to have some issues, so we defer to load safe
       _.defer(function() {
 
         // datepicker
@@ -51,7 +55,11 @@ define([
             {text: 'This week', dateStart: 'Today+7', dateEnd: 'Today+7' },
             {text: 'Next 30 Days', dateStart: 'Today+30', dateEnd: 'Today+30' }
           ],
-          presets: []
+          presets: [],
+          onChange: function() {
+            that.model.emit('change');
+          }
+
         });
 
       });
@@ -61,17 +69,22 @@ define([
 		},
 
     changeField: function(e) {
-      var target = e.target;
+      
+      var target = e.target, $target = $(e.target);
+
+      console.log("Target is ", $target);
+
     },
 
     saveQuest: function() {
 
-      var result;
+      var result, 
+        deadlineDate = this.$("input[name='deadline']").data('machine-date'); // we show a human-friendly string in the actual value field
 
       this.model.set({
         name: this.$("input[name='name']").val(),
         description: this.$("textarea[name='description']").val(),
-        deadline: this.$("input[name='deadline']").val(),
+        deadline: deadlineDate,
         status: this.$("select[name='status']").val()
       });
 
@@ -96,7 +109,8 @@ define([
       }
 
       if(result) {
-        Questience.appRouter.navigate('#quests/' + this.model._id, {trigger: true});
+        console.log(this.model);
+        Questience.appRouter.navigate('#quests/' + this.model.id, {trigger: true});
       }
 
 

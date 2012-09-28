@@ -5,7 +5,7 @@
     </div>
 
     <div class="row-fluid">
-        <div class="span12"><%= description %> &mdash; <span class="deadline<%= deadlineStatus %>">Due <%= moment(deadline).fromNow() %></span></div>
+        <div class="span12"><%= description %> &mdash; <span class="deadline<%= deadlineStatus %>">Due <%= humanFriendlyDeadline %></span></div>
     </div>
 
   <div class="row-fluid">
@@ -15,17 +15,8 @@
     <div class="row-fluid">
 
         <div class="span12">
-
-            <div class="btn-group actions-group pull-left">
-                <a class="btn btn-inverse dropdown-toggle" data-toggle="dropdown" href="#">Actions <span
-                    class="caret"></span></a>
-                <ul class="dropdown-menu">
-                    <li><a href="#quests/<%= _id %>/edit">Edit</a></li>
-                    <li><a href="#quests/<%= _id %>/remove">Delete</a></li>
-                </ul>
-
-            </div>
-            <a class="btn pull-left" href="<%= lastPage %>">&laquo; Back</a>
+            
+            <a class="btn" href="<%= lastPage %>">&laquo; Back</a> - <a class="btn btn-danger pull-right" href="#quests/<%= _id %>/remove">Delete</a> <a class="btn btn-primary" href="#quests/<%= _id %>/edit">Edit</a>
 
         </div>
 

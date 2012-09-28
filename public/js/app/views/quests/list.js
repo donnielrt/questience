@@ -25,9 +25,7 @@ define(['backbone', 'text!templates/quests/list.html'], function(Backbone, quest
 
       var Quests = this.collection.toJSON();
       this.$el.html(this.template({Quests: Quests}));
-
-      console.log("Rendering ", this.$el);
-
+      
       return this;
 		}
 
