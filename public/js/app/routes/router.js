@@ -55,7 +55,7 @@ define([
     noop: function() { },
 
     start: function () {
-      Backbone.history.start({pushState: true});
+      Backbone.history.start();
     },
 
 		home: function () {

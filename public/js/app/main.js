@@ -12,8 +12,9 @@ require.config({
 
     "analytics": "//google-analytics.com/ga",
     "jquery-ui": "../libs/plugins/jquery-ui",
-    "rangepicker": "../libs/plugins/rangepicker.min",
-    "moment": "../libs/plugins/moment"
+    "rangepicker": "../libs/plugins/daterangepicker",
+    "moment": "../libs/plugins/moment",
+    "datejs": "../libs/plugins/date"
 	},
 	shim: {
 		'backbone': {
@@ -29,7 +30,7 @@ require.config({
       exports: 'BackboneValidate'
     },
     'rangepicker': {
-      deps: ['jquery', 'jquery-ui'],
+      deps: ['jquery', 'jquery-ui', 'datejs'],
       exports: 'rangePicker'
     }
 	}

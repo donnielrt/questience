@@ -6,6 +6,7 @@ define([
 	'text!templates/quests/single.html',
 	'text!templates/quests/_item.html',
 	'text!templates/quests/form.html',
+  'datejs',
   'rangepicker',
   'moment'],
   function(
@@ -16,6 +17,7 @@ define([
     singleQuestTemplate,
     questItemTemplate,
     questFormTemplate,
+    Date,
     rangePicker,
     moment){
 
@@ -55,10 +57,7 @@ define([
             {text: 'This week', dateStart: 'Today+7', dateEnd: 'Today+7' },
             {text: 'Next 30 Days', dateStart: 'Today+30', dateEnd: 'Today+30' }
           ],
-          presets: [],
-          onChange: function() {
-            that.model.emit('change');
-          }
+          presets: []
 
         });
 
@@ -72,14 +71,12 @@ define([
       
       var target = e.target, $target = $(e.target);
 
-      console.log("Target is ", $target);
-
     },
 
     saveQuest: function() {
 
       var result, 
-        deadlineDate = this.$("input[name='deadline']").data('machine-date'); // we show a human-friendly string in the actual value field
+        deadlineDate = this.$("input[name='deadline']").val(); // we show a human-friendly string in the actual value field
 
       this.model.set({
         name: this.$("input[name='name']").val(),
@@ -87,6 +84,8 @@ define([
         deadline: deadlineDate,
         status: this.$("select[name='status']").val()
       });
+
+      console.log("Parsing: ", dateJs);
 
       this.collection = new Quests();
 
@@ -109,7 +108,6 @@ define([
       }
 
       if(result) {
-        console.log(this.model);
         Questience.appRouter.navigate('#quests/' + this.model.id, {trigger: true});
       }
 
