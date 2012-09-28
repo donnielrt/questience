@@ -60,8 +60,8 @@ define(['backbone', 'backbone-validate', 'moment'], function(Backbone, validatio
           }
 
           // "6 days from now formatting"
-          //response.humanFriendlyDeadline = deadline.fromNow();
-          response.deadline = deadline.fromNow();
+          response.humanFriendlyDeadline = deadline.fromNow();
+          response.deadline = deadline.format("MM/DD/YYYY");
 
         } else {
           response.deadline = "date missing or invalid";

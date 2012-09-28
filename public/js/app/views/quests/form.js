@@ -6,9 +6,7 @@ define([
 	'text!templates/quests/single.html',
 	'text!templates/quests/_item.html',
 	'text!templates/quests/form.html',
-  'datejs',
-  'rangepicker',
-  'moment'],
+  'rangepicker'],
   function(
     Backbone,
     Questience,
@@ -17,9 +15,7 @@ define([
     singleQuestTemplate,
     questItemTemplate,
     questFormTemplate,
-    Date,
-    rangePicker,
-    moment){
+    daterangepicker){
 
   "use strict";
 
@@ -57,8 +53,9 @@ define([
             {text: 'This week', dateStart: 'Today+7', dateEnd: 'Today+7' },
             {text: 'Next 30 Days', dateStart: 'Today+30', dateEnd: 'Today+30' }
           ],
-          presets: []
-
+          presets: {
+            specificDate: 'Specific Date'
+          }
         });
 
       });
@@ -75,17 +72,14 @@ define([
 
     saveQuest: function() {
 
-      var result, 
-        deadlineDate = this.$("input[name='deadline']").val(); // we show a human-friendly string in the actual value field
+      var result;
 
       this.model.set({
         name: this.$("input[name='name']").val(),
         description: this.$("textarea[name='description']").val(),
-        deadline: deadlineDate,
+        deadline: this.$("input[name='deadline']").val(),
         status: this.$("select[name='status']").val()
       });
-
-      console.log("Parsing: ", dateJs);
 
       this.collection = new Quests();
 
