@@ -1,20 +1,20 @@
 define([
 	'backbone',
   'questience',
-	'collections/quests',
-	'models/quest',
-	'text!templates/quests/single.html',
-	'text!templates/quests/_item.html',
-	'text!templates/quests/form.html',
+	'collections/tasks',
+	'models/task',
+	'text!templates/tasks/single.html',
+	'text!templates/tasks/_item.html',
+	'text!templates/tasks/form.html',
   'rangepicker'],
   function(
     Backbone,
     Questience,
-    Quests,
-    Quest,
-    singleQuestTemplate,
-    questItemTemplate,
-    questFormTemplate,
+    Tasks,
+    Task,
+    singleTaskTemplate,
+    taskItemTemplate,
+    taskFormTemplate,
     daterangepicker){
 
   "use strict";
@@ -59,7 +59,7 @@ define([
         });
 
       });
-      this.$el.html($(_.template(questFormTemplate)(templateData)));
+      this.$el.html($(_.template(taskFormTemplate)(templateData)));
 
       return this;
 		},
@@ -76,18 +76,19 @@ define([
 
       this.model.set({
         name: this.$("input[name='name']").val(),
+        points: this.$("input[name='points']").val(),
         description: this.$("textarea[name='description']").val(),
         deadline: this.$("input[name='deadline']").val(),
         status: this.$("select[name='status']").val()
       });
 
-      this.collection = new Quests();
+      this.collection = new Tasks();
 
       if (this.model.isNew()) {
 
         result = this.collection.create(this.model, {
           error: function() {
-            $(".alert").html("There was an error saving the quest! Please try again later.").removeClass().addClass('alert alert-error').alert('close');
+            $(".alert").html("There was an error saving the task! Please try again later.").removeClass().addClass('alert alert-error').alert('close');
           }
         });
 
@@ -95,14 +96,14 @@ define([
 
         result = this.model.save(this.model.toJSON(), {
           error: function () {
-            $(".alert").html("There was an error saving the quest! Please try again later.").removeClass().addClass('alert alert-error').alert('close');
+            $(".alert").html("There was an error saving the task! Please try again later.").removeClass().addClass('alert alert-error').alert('close');
           }
         });
 
       }
 
       if(result) {
-        Questience.appRouter.navigate('#quests/' + this.model.id, {trigger: true});
+        Questience.appRouter.navigate('#tasks/' + this.model.id, {trigger: true});
       }
 
 

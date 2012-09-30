@@ -40,6 +40,7 @@ module.exports = function () {
       var schema = new Schema({
         attributeId: mongoose.Schema.ObjectId,
         name: String,
+        description: String,
         points: Number,
         deadline: Date,
         status: [that.Status],

@@ -6,13 +6,7 @@ define(['backbone', 'backbone-validate', 'moment'], function(Backbone, validatio
 
     idAttribute: "_id",
 
-    urlRoot: "/api/quests",
-
-    schema: {
-      name: 'Text',
-      description: { validators: ['required', 'email'] },
-      deadline: 'Date'
-    },
+    urlRoot: "/api/tasks",
 
     /*validation: {
       name: {
@@ -32,8 +26,9 @@ define(['backbone', 'backbone-validate', 'moment'], function(Backbone, validatio
 
 		defaults: {
       _id: null,
-      name: "Untitled Quest",
+      name: "Untitled Task",
 			description: "",
+      points: 0,
 			deadline: new Date(),
       created: new Date(),
       updated: new Date()

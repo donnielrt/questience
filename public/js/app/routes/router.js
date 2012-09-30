@@ -5,9 +5,14 @@ define([
   'views/quests/form',
   'views/quests/remove',
   'views/quests/list',
-  'text!templates/common/header.html',
+  'views/tasks/single',
+  'views/tasks/form',
+  'views/tasks/remove',
+  'views/tasks/list',
   'models/quest',
   'collections/quests',
+  'models/task',
+  'collections/tasks',
   'questience'],
   function(
     Backbone,
@@ -16,9 +21,14 @@ define([
     QuestFormView,
     QuestDeleteView,
     QuestsView,
-    HeaderView,
+    TaskView,
+    TaskFormView,
+    TaskDeleteView,
+    TasksView,
     Quest,
     Quests,
+    Task,
+    Tasks,
     Questience){
 
   "use strict";
@@ -32,7 +42,12 @@ define([
       "quests/new": "questNew",
       "quests/:id": "questView",
 			"quests/:id/edit": "questEdit",
-			"quests/:id/remove": "questRemove"
+			"quests/:id/remove": "questRemove",
+      "tasks": "tasks",
+      "tasks/new": "taskNew",
+      "tasks/:id": "taskView",
+      "tasks/:id/edit": "taskEdit",
+      "tasks/:id/remove": "taskRemove"
 		},
 
     initialize: function () {
@@ -75,7 +90,7 @@ define([
     quests: function () {
 
       // list quests
-			var collection = new Quests(), questsView = new QuestsView({collection: collection, $el: $("#questience-app")}); // render quests
+      var collection = new Quests(), questsView = new QuestsView({collection: collection, $el: $("#questience-app")}); // render quests
 
       collection.fetch();
 
@@ -115,15 +130,15 @@ define([
 
     },
 
-		questEdit: function (id) {
+    questEdit: function (id) {
 
-			var quest = new Quest({_id: id}),
+      var quest = new Quest({_id: id}),
         questView,
         $root = this.appView.$el,
         that = this;
 
       questView = new QuestFormView({model: quest});
-			quest.fetch({
+      quest.fetch({
         success: function(model, response) {
           $root.html(questView.$el);
         }
@@ -131,9 +146,9 @@ define([
 
       return this;
 
-		},
+    },
 
-		questRemove: function (id) {
+    questRemove: function (id) {
 
       var quest = new Quest({_id: id}),
         questView,
@@ -144,6 +159,85 @@ define([
       quest.fetch({
         success: function(model, response) {
           $root.html(questView.$el);
+        }
+      });
+
+      return this;
+
+    },
+
+    tasks: function () {
+
+      // list tasks
+			var collection = new Tasks(), tasksView = new TasksView({collection: collection, $el: $("#questience-app")}); // render tasks
+
+      collection.fetch();
+
+      return this;
+
+    },
+
+    taskView: function (id) {
+
+      var task = new Task({_id: id}),
+        tasksView,
+        $root = this.appView.$el,
+        that = this;
+
+      tasksView = new TaskView({model: task, singleView: true});
+
+      task.fetch({
+        success: function(model, response) {
+
+          $root.html(tasksView.$el);
+
+        }
+      });
+
+      return this;
+
+    },
+
+    taskNew: function () {
+
+      var task = new Task(),
+        taskView = new TaskFormView({model: task});
+
+      this.appView.$el.html(taskView.render().$el);
+
+      return this;
+
+    },
+
+    taskEdit: function (id) {
+
+			var task = new Task({_id: id}),
+        taskView,
+        $root = this.appView.$el,
+        that = this;
+
+      taskView = new TaskFormView({model: task});
+			task.fetch({
+        success: function(model, response) {
+          $root.html(taskView.$el);
+        }
+      });
+
+      return this;
+
+		},
+
+    taskRemove: function (id) {
+
+      var task = new Quest({_id: id}),
+        taskView,
+        $root = this.appView.$el,
+        that = this;
+
+      taskView = new TaskDeleteView({model: task});
+      task.fetch({
+        success: function(model, response) {
+          $root.html(taskView.$el);
         }
       });
 

@@ -1,10 +1,10 @@
 define([
 	'backbone',
-	'collections/quests',
-	'models/quest',
-	'text!templates/quests/remove.html',
+	'collections/tasks',
+	'models/task',
+	'text!templates/tasks/remove.html',
   'questience'],
-  function(Backbone, Quests, Quest, questDeleteTemplate, Questience){
+  function(Backbone, Tasks, Task, taskDeleteTemplate, Questience){
 
   "use strict";
 
@@ -25,7 +25,7 @@ define([
 
 			var templateData = this.model.toJSON();
 
-      this.$el.html($(_.template(questDeleteTemplate)(templateData)));
+      this.$el.html($(_.template(taskDeleteTemplate)(templateData)));
 
       return this;
 		},
@@ -34,10 +34,10 @@ define([
       this.model.destroy({
         success: function() {
           console.log("Deleted");
-          Questience.appRouter.navigate('/quests', {trigger: true});
+          Questience.appRouter.navigate('/tasks', {trigger: true});
         },
         error: function() {
-          Questience.appRouter.navigate('/quests/' + this.model._id + '#delete-error', {trigger: true});
+          Questience.appRouter.navigate('/tasks/' + this.model._id + '#delete-error', {trigger: true});
         }
       });
     },

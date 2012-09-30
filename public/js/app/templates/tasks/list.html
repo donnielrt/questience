@@ -1,0 +1,34 @@
+<div class="row-fluid tasks">
+
+    <div class="well span12">
+
+        <ul id="tasks-list" class="list list-plain">
+        <% if(!Quests.length) { 
+            var ctr = 0;
+            %>
+            <li class="span12"><h2>You have not created any tasks!</h2><p><a href="tasks/new">Pick a battle</a>!</p></li>
+        <% } else { %>
+            <% _.each(Tasks, function (task) {
+                if(ctr++ % 3 === 0) {
+                    newRow = " list-row-new";
+                }
+                else {
+                    newRow = "";
+                }
+            %>
+            <li class="task-item<%= newRow %>">
+                <a href="#tasks/<%= task._id %>"><h2><%= task.name %></h2></a>
+                <p><%= task.description %> &mdash; <span class="deadline <%= task.deadlineStatus %>">Due <%= task.humanFriendlyDeadline %></span></p>
+                <p>Status: <span class="status"><%= task.status %></span></p>
+
+                <p><a class="btn" href="#tasks/<%= task._id %>">View details &raquo;</a></p>
+
+            </li>
+            <%
+            }); %>
+        <% }  %>
+        </ul>
+
+    </div>
+
+</div><!--/row-->

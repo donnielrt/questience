@@ -93,7 +93,6 @@ exports.setRoutes = function (app, mongoose) {
   app.put('/api/quests/:id', function (req, res) {
 
     var quest, now = new Date(), status;
-    console.log("Updating Quest");
 
     quest = Quests.findById(req.params.id, function(err, quest) {
 
@@ -103,11 +102,8 @@ exports.setRoutes = function (app, mongoose) {
       quest.updated = now;
 
       // status
-      console.log("Status: ", req.body);
       quest.status.remove();
       quest.status = { name: req.body.status };
-
-      console.log("Status: ", quest.status);
 
       quest.save(function (error) {
         if (!error) {
@@ -121,9 +117,6 @@ exports.setRoutes = function (app, mongoose) {
 
     return res.send(quest);
   });
-
-  /* DELETEs */
-
   app.delete('/api/quests/:id', function(req, res){
 
     console.log("Deleting quest");
@@ -141,6 +134,9 @@ exports.setRoutes = function (app, mongoose) {
       }
     });
   });
+
+
+  /* DELETEs */
 
   app.all('*', function(req, res) {
     res.redirect('/');

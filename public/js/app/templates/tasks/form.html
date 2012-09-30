@@ -1,0 +1,60 @@
+<div class="alert is-not-displayed"></div>
+<fieldset>
+
+    <legend><%= formEditMode %> Task</legend>
+
+    <div class="control-group">
+
+      <label class="control-label" for="status">Status</label>
+      <div class="controls">
+        <select id="status" name="status">
+          <option value="Pending">Pending</option>
+          <option value="Completed">Completed</option>
+          <option value="Archived">Archived</option>
+        </select>
+      </div>
+
+    </div>
+
+    <div class="control-group">
+        <label class="control-label" for="name">Name</label>
+
+        <div class="controls">
+            <input type="text" id="name" class="input-xxlarge" name="name" placeholder="Quest Name" value="<%= name %>"/>
+        </div>
+    </div>
+
+    <div class="control-group">
+        <label class="control-label" for="description">Description</label>
+
+        <div class="controls">
+            <textarea id="description" class="input-xxlarge" name="description" placeholder="Quest Description"><%= description %></textarea>
+        </div>
+    </div>
+
+    <div class="control-group">
+        <label class="control-label" for="deadline">Deadline</label>
+
+        <div class="controls">
+            <input type="datetime" id="deadline" name="deadline" placeholder="Quest Deadline" class="human-friendly-date" data-machine-date="<%= deadline %>" value="<%= deadline %>"/>
+        </div>
+    </div>
+
+  <div class="control-group">
+
+    <label class="control-label" for="status">Points</label>
+    <div class="controls">
+      <select id="points" name="points">
+        <% for(var ctr = 0; ctr < 1; ctr += 0.1) { %>
+        <option value="<%= ctr %>"><%= ctr %></option>
+        <% } %>
+      </select>
+    </div>
+
+  </div>
+
+    <div class="controls">
+        <input type="button" name="save" class="btn btn-primary btn-save" value="save"/> <a href="/tasks/<%= _id %>" class="btn btn-cancel">Cancel</a>
+    </div>
+
+</fieldset>
